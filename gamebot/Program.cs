@@ -1,5 +1,7 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.IO;
+using System.Linq;
 using Discord;
 using Discord.Commands;
 
@@ -20,18 +22,21 @@ namespace gamebot
 
 			_client.MessageReceived += async (s, e) =>
 			{
-				if (e.Message.Text == prefix + "tictactoe")
+				string cmd = e.Message.RawText.Split(' ')[0].Skip(prefix.Length).ToString();
+				string[] par = e.Message.RawText.Split(' ').Skip(1).ToArray();
+				if (cmd == "tictactoe")
 				{
-					if (tttProgress = 0)
+					if (tttProgress == 0)
 					{
 						tttProgress++;
-						e.Channel.SendMessage("Initializing game...");
+						await e.Channel.SendMessage("Initializing game...");
 					}
 				}
 			};
 
 			string token = File.ReadAllText("token.txt");
-			_client.ExecuteAndWait(async () => {
+			_client.ExecuteAndWait(async () =>
+			{
 				await _client.Connect(token, TokenType.Bot);
 			});
 
