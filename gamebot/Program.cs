@@ -37,7 +37,7 @@ namespace gamebot
 						else
 							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}");
 					}
-					else if (par.Length == 2) // checks if two arguments were supplied
+					else if (par.Length == 2 || par.Length == 4) // checks if two arguments were supplied
 					{
 						if (par[0] == "play")
 							await e.Channel.SendMessage(helpPlay); // too few requirements were supplied so help is shown
@@ -51,7 +51,10 @@ namespace gamebot
 									await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is shown
 								else
 								{
-									TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
+									if (par.Length == 2)
+										TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
+									else
+										TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
 									await e.Channel.SendMessage("A new game has started!");
 								}
 							}

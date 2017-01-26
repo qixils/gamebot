@@ -12,14 +12,14 @@ namespace gamebot
 
 		bool isCircleTurn;
 
-		public TicTacToe(User cross, User circle, Channel channel)
+		public TicTacToe(User cross, User circle, Channel channel, int width = 3, int height = 3)
 		{
 			// variables are updated to match game
 			this.cross = cross;
 			this.circle = circle;
 			this.channel = channel;
 
-			game = new bool?[,] {{null,null,null},{ null,null,null},{ null,null,null}};
+			game = new bool?[width,height];
 		}
 		public bool TakeTurn(User player, int x, int y)
 		{
