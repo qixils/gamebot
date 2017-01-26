@@ -85,18 +85,25 @@ namespace gamebot
 			bool circleWin = false;
 			bool crossWin = false;
 
-			foreach (var row in game) { // gets every row in 'game'
+			for (int i = 0; i < game.GetLength(0); i++)
+			{
+				// gets every row in 'game'
 				// defines temporary variables
 				int crossPoints = 0;
 				int circlePoints = 0;
 
-				foreach (bool? tile in row) { // gets every 'tile' in the current selected row
-					if (tile == false) {
+				for (int j = 0; j < game.GetLength(1); i++)
+				{
+					var tile = game[i, j];
+					// gets every 'tile' in the current selected row
+					if (tile == false)
+					{
 						crossPoints++; // increments cross points by one
 						circlePoints = 0; // sets circle points to zero
 					}
 
-					else if (tile == true) {
+					else if (tile == true)
+					{
 						circlePoints++; // increments circle points
 						crossPoints = 0; // sets cross points to zero
 					}
