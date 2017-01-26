@@ -79,27 +79,46 @@ namespace gamebot
 		public GameStat CheckGame()
 		{
 			// define some variables
-			var firstRow = game.GetValue(0);
-			var secondRow = game.GetValue(1);
-			var thirdTow = game.GetValue(2);
+			int width = game.GetLength(0); //get the width of the game
+			int height = game.GetLength(1); //get the height of the game
 			bool gameTie = true;
 			bool circleWin = false;
 			bool crossWin = false;
 
-			// tie check
-			foreach (var row in game)
-				foreach (bool? tile in row)
-					if (tile = null)
-						gameTie = false;
+			foreach (var row in game) { // gets every row in 'game'
+				// defines temporary variables
+				int crossPoints = 0;
+				int circlePoints = 0;
+
+				foreach (bool? tile in row) { // gets every 'tile' in the current selected row
+					if (tile == false) {
+						crossPoints++; // increments cross points by one
+						circlePoints = 0; // sets circle points to zero
+					}
+
+					else if (tile == true) {
+						circlePoints++; // increments circle points
+						crossPoints = 0; // sets cross points to zero
+					}
+
+					else if (tile == null)
+						gameTie = false; // sets game tie to false if a null tile is detected, which means game is unfinished
+				}
+
+				if (crossPoints == width) // checks if crossPoints are the same as width
+					crossWin = true; // sets crossWin to true
+				else if (circlePoints == width) // similar to above
+					circleWin = true; // still similar to above
+			}
 
 			if (circleWin)
-				return GameStat.CircleWin;
+				return GameStat.CircleWin; // tell code circle won
 			else if (crossWin)
-				return GameStat.CrossWin;
+				return GameStat.CrossWin; // tell code cross won
 			else if (gameTie)
-				return GameStat.Tie;
+				return GameStat.Tie; // tell code nobody won
 			else
-				return GameStat.Unfinished;
+				return GameStat.Unfinished; // tell code the game is going on
 		}
 		public static int SearchPlayer(TicTacToe[] games, User player, Channel channel)
 		{
