@@ -78,8 +78,26 @@ namespace gamebot
 		}
 		public GameStat CheckGame()
 		{
-			return GameStat.Unfinished;
-			//should put algorithm to check the game if somebody wins or if there's a tie
+			// define some variables
+			var firstRow = game.GetValue(0);
+			var secondRow = game.GetValue(1);
+			var thirdTow = game.GetValue(2);
+			bool gameTie = true;
+			bool circleWin = false;
+			bool crossWin = false;
+
+			// tie check
+			foreach (var row in game)
+				foreach (bool? tile in row)
+					if (tile = null)
+						gameTie = false;
+
+			if (circleWin)
+				return GameStat.CircleWin;
+			else if (crossWin)
+				return GameStat.CrossWin;
+			else if (gameTie)
+				return GameStat.Tie;
 		}
 		public static int SearchPlayer(TicTacToe[] games, User player, Channel channel)
 		{
