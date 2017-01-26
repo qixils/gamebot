@@ -89,32 +89,51 @@ namespace gamebot
 			{
 				// gets every row in 'game'
 				// defines temporary variables
-				int crossPoints = 0;
-				int circlePoints = 0;
+				int crossPointsC = 0;	//collumn points
+				int circlePointsC = 0;
+				int crossPointsR = 0;	//row points
+				int circlePointsR = 0;
 
-				for (int j = 0; j < game.GetLength(1); i++)
+				for (int j = 0; j < game.GetLength(1); j++)
 				{
-					var tile = game[i, j];
+					var tileC = game[i, j]; //collumn points
+					var tileR = game[j, i]; //row points
+
 					// gets every 'tile' in the current selected row
-					if (tile == false)
+					if (tileC == false) //collumn check
 					{
-						crossPoints++; // increments cross points by one
-						circlePoints = 0; // sets circle points to zero
+						crossPointsC++; // increments cross points by one
+						circlePointsC = 0; // sets circle points to zero
 					}
 
-					else if (tile == true)
+					else if (tileC == true)
 					{
-						circlePoints++; // increments circle points
-						crossPoints = 0; // sets cross points to zero
+						circlePointsC++; // increments circle points
+						crossPointsC = 0; // sets cross points to zero
 					}
 
-					else if (tile == null)
+					else if (tileC == null)
+						gameTie = false; // sets game tie to false if a null tile is detected, which means game is unfinished
+					
+					if (tileR == false) //row check
+					{
+						crossPointsR++; // increments cross points by one
+						circlePointsR = 0; // sets circle points to zero
+					}
+
+					else if (tileR == true)
+					{
+						circlePointsR++; // increments circle points
+						crossPointsR = 0; // sets cross points to zero
+					}
+
+					else if (tileR == null)
 						gameTie = false; // sets game tie to false if a null tile is detected, which means game is unfinished
 				}
 
-				if (crossPoints == width) // checks if crossPoints are the same as width
+				if (crossPointsC == height || crossPointsR == width) // checks if crossPoints are the same as height
 					crossWin = true; // sets crossWin to true
-				else if (circlePoints == width) // similar to above
+				else if (circlePointsC == height || circlePointsR == width) // similar to above
 					circleWin = true; // still similar to above
 			}
 
