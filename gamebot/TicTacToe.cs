@@ -98,6 +98,8 @@ namespace gamebot
 				return GameStat.CrossWin;
 			else if (gameTie)
 				return GameStat.Tie;
+			else
+				return GameStat.Unfinished;
 		}
 		public static int SearchPlayer(TicTacToe[] games, User player, Channel channel)
 		{

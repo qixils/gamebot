@@ -105,7 +105,7 @@ namespace gamebot
 				}
 			};
 
-			string token = File.ReadAllText("token.txt");
+			string token = File.ReadAllText("bot-token.txt");
 			_client.ExecuteAndWait(async () =>
 			{
 				await _client.Connect(token, TokenType.Bot);
