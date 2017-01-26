@@ -24,7 +24,30 @@ namespace gamebot
 		}
 		public string DrawGame()
 		{
-			throw new NotImplementedException();
+			int width = game.GetLength(0);
+			int height = game.GetLength(1);
+			string result = " ";
+
+			for (int i = 1; i <= width; i++)
+			{
+				result += i;
+			}
+			for (int i = 1; i <= height; i++)
+			{
+				result += '\n';
+				result += i;
+				for (int j = 1; j <= width; j++)
+				{
+					if (game[j, i] == null)
+						result += ' ';
+					else if (game[j, i] == false)
+						result += 'X';
+					else if (game[j, i] == true)
+						result += 'O';
+				}
+			}
+
+			return result;
 		}
 		public static int SearchPlayer(TicTacToe[] games, User player)
 		{
