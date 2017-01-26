@@ -43,13 +43,19 @@ namespace gamebot
 							await e.Channel.SendMessage(helpPlay); // too few requirements were supplied so help is shown
 						else if (par[0] == "new")
 						{
-							User[] mentioned = e.Message.MentionedUsers.ToArray();
-							if (mentioned.Length != 1)
-								await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is shown
-							else
+							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel);
+							if (i == -1)
 							{
-								TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
+								User[] mentioned = e.Message.MentionedUsers.ToArray();
+								if (mentioned.Length != 1)
+									await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is shown
+								else
+								{
+									TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
+								}
 							}
+							else
+								await e.Channel.SendMessage("You are already in a game in this channel.");
 						}
 						else
 							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}"); // send default help message if no valid commands were detected
@@ -61,8 +67,18 @@ namespace gamebot
 							await e.Channel.SendMessage(helpNew); // too many requirements were supplied so help is shown
 						else if (par[0] == "play")
 						{
-							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User);
-							TTTGames[i].TakeTurn(e.User, int.Parse(par[2]), int.Parse(par[3]));
+							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel);
+							if (i != -1) //checks if it actually finds a player
+							{
+								TTTGames[i].TakeTurn(e.User, int.Parse(par[2]), int.Parse(par[3]));
+								var c = TTTGames[i].CheckGame();
+								if (c == TicTacToe.GameStat.CircleWin)
+								{
+									TTTGames.RemoveAt(i);
+								}
+							}
+							else
+								await e.Channel.SendMessage("You are currently not in a game in this channel.");
 						}
 						else
 							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}"); // invalid arguments given, help displayed

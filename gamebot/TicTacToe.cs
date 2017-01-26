@@ -5,18 +5,18 @@ namespace gamebot
 {
 	public class TicTacToe
 	{
-		public User player1;
-		public User player2;
+		public User cross;
+		public User circle;
 		Channel channel;
 		bool?[,] game;
 
 		bool isPlayer2Turn;
 
-		public TicTacToe(User player1, User player2, Channel channel)
+		public TicTacToe(User cross, User circle, Channel channel)
 		{
 			// variables are updated to match game
-			this.player1 = player1;
-			this.player2 = player2;
+			this.cross = cross;
+			this.circle = circle;
 			this.channel = channel;
 		}
 		public void TakeTurn(User player, int x, int y)
@@ -55,19 +55,34 @@ namespace gamebot
 			 * 2 XX
 			 * 3OOX */
 		}
-		public static int SearchPlayer(TicTacToe[] games, User player)
+		public GameStat CheckGame()
+		{
+			return GameStat.Unfinished;
+			//should put algorithm to check the game if somebody wins or if there's a tie
+		}
+		public static int SearchPlayer(TicTacToe[] games, User player, Channel channel)
 		{
 			int r = -1; //if it couldn't find it
 			for (int i = 0; i < games.Length; i++) // iterate through all variables in 'games' by initially setting int 'i' to 0, checking if it's less than the total number of games, then adding one
 			{
 				TicTacToe game = games[i];
-				if (game.player1 == player || game.player2 == player) // checks if command runner is player 1 or 2 in any active game
+				if (game.channel == channel) // checks if the game's channel is the same as the requested channel
 				{
-					r = i; // sets 'r' as 'i'
-					break; // ends 'for' loop
+					if (game.cross == player || game.circle == player) // checks if command runner is player 1 or 2 in any active game
+					{
+						r = i; // sets 'r' as 'i'
+						break; // ends 'for' loop
+					}
 				}
 			}
 			return r; // returns 'r' (the index in the array) back to initiating code
+		}
+		public enum GameStat //used for CheckGame()
+		{
+			Unfinished, //for when someone can still wins
+			CrossWin,	//when cross wins
+			CircleWin,	//when circle wins
+			Tie			//when none wins, and cannot wins by placing more crosses or circles
 		}
 	}
 }
