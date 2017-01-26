@@ -18,9 +18,14 @@ namespace gamebot
 			this.cross = cross;
 			this.circle = circle;
 			this.channel = channel;
+
+			game = new bool?[,] {{null,null,null},{ null,null,null},{ null,null,null}};
 		}
 		public bool TakeTurn(User player, int x, int y)
 		{
+			x--;
+			y--;
+
 			bool? isCircle = null; //if the player isn't part of the game, it will always be null
 			if (circle == player)
 				isCircle = true;  //set to true if the player is circle
@@ -33,6 +38,8 @@ namespace gamebot
 					game[x, y] = true; //set the coordinate x y to a circle
 				else if (isCircle == false)
 					game[x, y] = false; //set the coordinate x y to a cross
+
+				isCircleTurn = !isCircleTurn;
 				return true;
 			}	//the returns here is for checking if the operation is successful
 			return false;
@@ -43,15 +50,15 @@ namespace gamebot
 			int height = game.GetLength(1); //get the height of the game
 			string result = " "; //create empty result with one space
 
-			for (int i = 1; i <= width; i++)
+			for (int i = 0; i < width; i++)
 			{
-				result += i;	//write 1 to whatever the width is
+				result += i + 1;	//write 1 to whatever the width is
 			}					//example: width is 4, it writes 1234
-			for (int i = 1; i <= height; i++)
+			for (int i = 0; i < height; i++)
 			{
 				result += '\n';	//everytime it go to the next row in the game, creates a new line
-				result += i;	//it also enters the current height line
-				for (int j = 1; j <= width; j++) //loop in every column of the game
+				result += i + 1;	//it also enters the current height line
+				for (int j = 0; j < width; j++) //loop in every column of the game
 				{
 					if (game[j, i] == null)
 						result += ' ';				//if it finds 'null' at [j,i] (x,y), it puts a space

@@ -22,7 +22,7 @@ namespace gamebot
 
 			_client.MessageReceived += async (s, e) =>
 			{
-				string cmd = e.Message.RawText.Split(' ')[0].Skip(prefix.Length).ToString(); // Grabs the command used by removing the prefix
+				string cmd = new string(e.Message.RawText.Split(' ')[0].Skip(prefix.Length).ToArray()); // Grabs the command used by removing the prefix
 				string[] par = e.Message.RawText.Split(' ').Skip(1).ToArray(); // Grabs the arguments used in the command
 				if (cmd == "tictactoe") // tictactoe command code
 				{
@@ -71,10 +71,10 @@ namespace gamebot
 							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel);
 							if (i != -1) //checks if it actually finds a player
 							{
-								bool isc = TTTGames[i].TakeTurn(e.User, int.Parse(par[2]), int.Parse(par[3])); //check the turn
+								bool isc = TTTGames[i].TakeTurn(e.User, int.Parse(par[1]), int.Parse(par[2])); //check the turn
 								if (isc) //if the turn was successful
 								{
-									await e.Channel.SendMessage(TTTGames[i].DrawGame()); //write down the game
+									await e.Channel.SendMessage("```\n" + TTTGames[i].DrawGame() + "```"); //write down the game
 									var c = TTTGames[i].CheckGame(); //check if someone wins
 									if (c == TicTacToe.GameStat.CircleWin || c == TicTacToe.GameStat.CrossWin) //if someone wins
 									{
