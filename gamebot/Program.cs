@@ -52,10 +52,11 @@ namespace gamebot
 								else
 								{
 									TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
+									await e.Channel.SendMessage("A new game has started!");
 								}
 							}
 							else
-								await e.Channel.SendMessage("You are already in a game in this channel.");
+								await e.Channel.SendMessage("You are already in a game in this channel."); //the user cannot play two game in a channel
 						}
 						else
 							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}"); // send default help message if no valid commands were detected
@@ -70,15 +71,28 @@ namespace gamebot
 							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel);
 							if (i != -1) //checks if it actually finds a player
 							{
-								TTTGames[i].TakeTurn(e.User, int.Parse(par[2]), int.Parse(par[3]));
-								var c = TTTGames[i].CheckGame();
-								if (c == TicTacToe.GameStat.CircleWin)
+								bool isc = TTTGames[i].TakeTurn(e.User, int.Parse(par[2]), int.Parse(par[3])); //check the turn
+								if (isc) //if the turn was successful
 								{
-									TTTGames.RemoveAt(i);
+									await e.Channel.SendMessage(TTTGames[i].DrawGame()); //write down the game
+									var c = TTTGames[i].CheckGame(); //check if someone wins
+									if (c == TicTacToe.GameStat.CircleWin || c == TicTacToe.GameStat.CrossWin) //if someone wins
+									{
+										await e.Channel.SendMessage($"Congratulation, <@{e.User.Id}>, you won!");
+										TTTGames.RemoveAt(i); //delete the game
+									}
+									else if (c == TicTacToe.GameStat.Tie) //if there is a tie
+									{
+										await e.Channel.SendMessage("You are both stuck, there is a tie. The game has ended.");
+										TTTGames.RemoveAt(i); //delete the game
+									}
+									//otherwise well the game continues
 								}
+								else
+									await e.Channel.SendMessage("It's not your turn."); //the user cannot play if it's not his turn
 							}
 							else
-								await e.Channel.SendMessage("You are currently not in a game in this channel.");
+								await e.Channel.SendMessage("You are currently not in a game in this channel."); //the user cannot play if he's not playing
 						}
 						else
 							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}"); // invalid arguments given, help displayed

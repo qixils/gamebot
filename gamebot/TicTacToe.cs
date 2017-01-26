@@ -10,7 +10,7 @@ namespace gamebot
 		Channel channel;
 		bool?[,] game;
 
-		bool isPlayer2Turn;
+		bool isCircleTurn;
 
 		public TicTacToe(User cross, User circle, Channel channel)
 		{
@@ -19,9 +19,23 @@ namespace gamebot
 			this.circle = circle;
 			this.channel = channel;
 		}
-		public void TakeTurn(User player, int x, int y)
+		public bool TakeTurn(User player, int x, int y)
 		{
-			throw new NotImplementedException(); // throw error as function isn't implemented yet
+			bool? isCircle = null; //if the player isn't part of the game, it will always be null
+			if (circle == player)
+				isCircle = true;  //set to true if the player is circle
+			else if (cross == player)
+				isCircle = false; //set to false if the player is cross
+
+			if (isCircle == isCircleTurn) //check if it's the player's turn
+			{
+				if (isCircle == true)
+					game[x, y] = true; //set the coordinate x y to a circle
+				else if (isCircle == false)
+					game[x, y] = false; //set the coordinate x y to a cross
+				return true;
+			}	//the returns here is for checking if the operation is successful
+			return false;
 		}
 		public string DrawGame()
 		{
