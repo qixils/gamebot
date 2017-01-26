@@ -25,34 +25,39 @@ namespace gamebot
 		}
 		public string DrawGame()
 		{
-			int width = game.GetLength(0);
-			int height = game.GetLength(1);
-			string result = " ";
+			int width = game.GetLength(0); //get the width of the game
+			int height = game.GetLength(1); //get the height of the game
+			string result = " "; //create empty result with one space
 
 			for (int i = 1; i <= width; i++)
 			{
-				result += i;
-			}
+				result += i;	//write 1 to whatever the width is
+			}					//example: width is 4, it writes 1234
 			for (int i = 1; i <= height; i++)
 			{
-				result += '\n';
-				result += i;
-				for (int j = 1; j <= width; j++)
+				result += '\n';	//everytime it go to the next row in the game, creates a new line
+				result += i;	//it also enters the current height line
+				for (int j = 1; j <= width; j++) //loop in every column of the game
 				{
 					if (game[j, i] == null)
-						result += ' ';
+						result += ' ';				//if it finds 'null' at [j,i] (x,y), it puts a space
 					else if (game[j, i] == false)
-						result += 'X';
+						result += 'X';              //if it finds 'false' at [j,i] (x,y), it puts a cross
 					else if (game[j, i] == true)
-						result += 'O';
+						result += 'O';              //if it finds 'true' at [j,i] (x,y), it puts a circle
 				}
 			}
 
-			return result;
+			return result; //return the drawn string
+			/* should look like this:
+			 *  123
+			 * 1X O
+			 * 2 XX
+			 * 3OOX */
 		}
 		public static int SearchPlayer(TicTacToe[] games, User player)
 		{
-			int r = -1;
+			int r = -1; //if it couldn't find it
 			for (int i = 0; i < games.Length; i++) // iterate through all variables in 'games' by initially setting int 'i' to 0, checking if it's less than the total number of games, then adding one
 			{
 				TicTacToe game = games[i];
@@ -62,7 +67,7 @@ namespace gamebot
 					break; // ends 'for' loop
 				}
 			}
-			return r; // returns 'r' (the game ID) back to initiating code
+			return r; // returns 'r' (the index in the array) back to initiating code
 		}
 	}
 }
