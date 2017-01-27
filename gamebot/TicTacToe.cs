@@ -98,13 +98,26 @@ namespace gamebot
 				int circlePointsC = 0;
 				int crossPointsR = 0;	//row points
 				int circlePointsR = 0;
+				int crossPointsDR = 0;  //downright points
+				int circlePointsDR = 0;
 
 				for (int j = 0; j < game.GetLength(1); j++)
 				{
 					var tileC = game[i, j]; //collumn points
 					var tileR = game[j, i]; //row points
 
-					// gets every 'tile' in the current selected row
+					if ((i == j) && (tileC == false))
+					{
+						crossPointsDR++;
+						circlePointsDR = 0;
+					}
+
+					else if ((i == j) && (tileC == true))
+					{
+						circlePointsDR++;
+						crossPointsDR = 0;
+					}
+
 					if (tileC == false) //collumn check
 					{
 						crossPointsC++; // increments cross points by one
@@ -136,9 +149,9 @@ namespace gamebot
 						gameTie = false; // sets game tie to false if a null tile is detected, which means game is unfinished
 				}
 
-				if (crossPointsC == height || crossPointsR == width) // checks if crossPoints are the same as height
+				if (crossPointsC == height || crossPointsR == width || crossPointsDR == height) // checks if crossPoints are the same as height
 					crossWin = true; // sets crossWin to true
-				else if (circlePointsC == height || circlePointsR == width) // similar to above
+				else if (circlePointsC == height || circlePointsR == width || circlePointsDR == height) // similar to above
 					circleWin = true; // still similar to above
 			}
 
