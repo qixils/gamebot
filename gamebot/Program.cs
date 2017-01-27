@@ -34,6 +34,16 @@ namespace gamebot
 							await e.Channel.SendMessage(helpNew); // outputs the 'helpNew' string if the argument was 'new'
 						else if (par[0] == "play")
 							await e.Channel.SendMessage(helpPlay); // same as above comment, but with 'helpPlay' string and 'play' arg
+						else if (par[0] == "cancel") {
+							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel); // searches for a game with command runner and channel
+							if (i != -1) //checks if it actually finds a player
+							{
+								TTTGames.RemoveAt(i); // deletes game at 'i', which will be the current game if found
+								await e.Channel.SendMessage($"The game has successfully been cancelled.");
+							}
+							else
+								await e.Channel.SendMessage($"You are currently not in a game in this channel.");
+						}
 						else
 							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}");
 					}
