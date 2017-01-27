@@ -74,8 +74,8 @@ namespace gamebot
 							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel);
 							if (i != -1) //checks if it actually finds a player
 							{
-								bool isc = TTTGames[i].TakeTurn(e.User, int.Parse(par[1]), int.Parse(par[2])); //check the turn
-								if (isc) //if the turn was successful
+								bool? isc = TTTGames[i].TakeTurn(e.User, int.Parse(par[1]), int.Parse(par[2])); //check the turn
+								if (isc == true) //if the turn was successful
 								{
 									await e.Channel.SendMessage("```\n" + TTTGames[i].DrawGame() + "```"); //write down the game
 									var c = TTTGames[i].CheckGame(); //check if someone wins
@@ -91,8 +91,10 @@ namespace gamebot
 									}
 									//otherwise well the game continues
 								}
-								else
+								else if(isc == false)
 									await e.Channel.SendMessage("It's not your turn."); //the user cannot play if it's not his turn
+								else
+									await e.Channel.SendMessage("You can't place a shape onto another shape."); //the user cannot cheat by replacing a shape
 							}
 							else
 								await e.Channel.SendMessage("You are currently not in a game in this channel."); //the user cannot play if he's not playing
