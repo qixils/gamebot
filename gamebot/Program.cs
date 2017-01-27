@@ -28,6 +28,7 @@ namespace gamebot
 				{
 					string helpNew = $"Type `{prefix}tictactoe new <mention>` to invite someone to play Tic Tac Toe.";
 					string helpPlay = $"Type `{prefix}tictactoe play <X> <Y>` to place a cross or a circle in a game.";
+					string helpCancel = $"Type `{prefix}tictactoe cancel` to cancel your current game in this channel.";
 					if (par.Length == 1) // checks if only one command argument was supplied
 					{
 						if (par[0] == "new")
@@ -45,12 +46,14 @@ namespace gamebot
 								await e.Channel.SendMessage($"You are currently not in a game in this channel.");
 						}
 						else
-							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}");
+							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
 					}
-					else if (par.Length == 2 || par.Length == 4) // checks if two arguments were supplied
+					else if (par.Length == 2 || par.Length == 4) // checks if two or four arguments were supplied
 					{
 						if (par[0] == "play")
 							await e.Channel.SendMessage(helpPlay); // too few requirements were supplied so help is shown
+						else if (par[0] == "cancel")
+							await e.Channel.SendMessage(helpCancel);
 						else if (par[0] == "new")
 						{
 							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel);
@@ -72,13 +75,15 @@ namespace gamebot
 								await e.Channel.SendMessage("You are already in a game in this channel."); //the user cannot play two game in a channel
 						}
 						else
-							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}"); // send default help message if no valid commands were detected
+							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}"); // send default help message if no valid commands were detected
 
 					}
 					else if (par.Length == 3)
 					{
 						if (par[0] == "new")
 							await e.Channel.SendMessage(helpNew); // too many requirements were supplied so help is shown
+						else if (par[0] == "cancel")
+							await e.Channel.SendMessage(helpCancel);
 						else if (par[0] == "play")
 						{
 							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel);
@@ -110,10 +115,10 @@ namespace gamebot
 								await e.Channel.SendMessage("You are currently not in a game in this channel."); //the user cannot play if he's not playing
 						}
 						else
-							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}"); // invalid arguments given, help displayed
+							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}"); // invalid arguments given, help displayed
 					}
 					else
-						await e.Channel.SendMessage($"{helpNew}\n{helpPlay}");
+						await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
 				}
 			};
 
