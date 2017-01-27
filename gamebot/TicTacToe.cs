@@ -98,7 +98,7 @@ namespace gamebot
 				int circlePointsC = 0;
 				int crossPointsR = 0;	//row points
 				int circlePointsR = 0;
-				int crossPointsDR = 0;  //downright points
+				int crossPointsDR = 0;  //down-right points
 				int circlePointsDR = 0;
 
 				for (int j = 0; j < game.GetLength(1); j++)
@@ -111,7 +111,6 @@ namespace gamebot
 						crossPointsDR++;
 						circlePointsDR = 0;
 					}
-
 					else if ((i == j) && (tileC == true))
 					{
 						circlePointsDR++;
@@ -154,6 +153,32 @@ namespace gamebot
 				else if (circlePointsC == height || circlePointsR == width || circlePointsDR == height) // similar to above
 					circleWin = true; // still similar to above
 			}
+			int crossPoints = 0;  //down-right points
+			int circlePoints = 0;
+
+			for (int i = 0; i < game.GetLength(0); i++)
+			{
+				for (int j = game.GetLength(1) - 1; j >= 0; j--)
+				{
+					//Console.WriteLine(i + "," + j);
+					var tile = game[i, j];
+
+					if ((i == ((j * -1) + (game.GetLength(0) - 1))) && (tile == false))
+					{
+						crossPoints++;
+						circlePoints = 0;
+					}
+					else if ((i == ((j * -1) + (game.GetLength(0) - 1))) && (tile == true))
+					{
+						circlePoints++;
+						crossPoints = 0;
+					}
+				}
+			}
+			if (crossPoints == height) // checks if crossPoints are the same as height
+				crossWin = true; // sets crossWin to true
+			else if (circlePoints == height) // similar to above
+				circleWin = true; // still similar to above
 
 			if (circleWin)
 				return GameStat.CircleWin; // tell code circle won
