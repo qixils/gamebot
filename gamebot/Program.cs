@@ -126,6 +126,15 @@ namespace gamebot
 					else
 						await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
 				}
+				else if (cmd == "hangman") // hangman command code
+				{
+					if (par.Length == 1) // checks if only one command argument was supplied
+					{
+						if (par[0] == "new") {
+							await e.Channel.SendMessage("Setting up game..."); // outputs string
+						}
+					}
+				}
 			};
 
 			string token = File.ReadAllText("bot-token.txt");

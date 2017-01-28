@@ -8,7 +8,12 @@ namespace gamebot
 	{
 		static Random rnd = new Random();
 
-		public string WordChooser()
+		public Hangman()
+		{
+			WordChooser();
+		}
+
+		public string WordChooser() // Chooses a random word from a custom dictionary
 		{
 			var words = new List<string> { "stabyourself", "meme", "is that saso", "reunion" };
 			// ^ list of words
