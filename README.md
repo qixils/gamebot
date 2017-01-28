@@ -1,6 +1,7 @@
 # gamebot
 
 gamebot is a C# bot for [Discord](https://discordapp.com/) made to automate games.
+You can add it to your server using [this link](https://discordapp.com/oauth2/authorize?client_id=273973153104134144&scope=bot).
 
 ## Available Games
 
@@ -20,4 +21,4 @@ gamebot is a C# bot for [Discord](https://discordapp.com/) made to automate game
 
 ### Contributing
 
-If you want to contribute to the bot, please comment any code you make to make it easy to figure out what the code does.
+If you want to contribute to the bot, please comment any code you make to make it easy to figure out what the code does, then create a pull request.
