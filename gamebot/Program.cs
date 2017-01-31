@@ -56,29 +56,35 @@ namespace gamebot
 							await e.Channel.SendMessage(helpCancel);
 						else if (par[0] == "new")
 						{
-							int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel);
-							if (i == -1)
-							{
-								User[] mentioned = e.Message.MentionedUsers.ToArray();
-								if (mentioned.Length != 1)
-									await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is shown
-								if (mentioned[0].IsBot)
-									await e.Channel.SendMessage($"You cannot play against another bot!");
-								// else if (mentioned[0].Status.Value == UserStatus.Offline)
-								//     await e.Channel.SendMessage($"You cannot play against an offline/invisible user!");
-								else if (mentioned[0] == e.User)
-									await e.Channel.SendMessage($"You cannot play a game with yourself!");
-								else
-								{
-									if (par.Length == 2)
-										TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
-									else
-										TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
-									await e.Channel.SendMessage("A new game has started!");
-								}
-							}
+							User[] mentioned = e.Message.MentionedUsers.ToArray();
+							if (mentioned.Length != 1)
+								await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is show
 							else
-								await e.Channel.SendMessage("You are already in a game in this channel."); //the user cannot play two game in a channel
+							{
+								var i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.User, e.Channel); //search the user
+								var j = TicTacToe.SearchPlayer(TTTGames.ToArray(), mentioned[0], e.Channel); //search the mentioned user
+								if (i == -1 && j == -1) //if it doesn't find anything
+								{
+									if (mentioned[0].IsBot)
+										await e.Channel.SendMessage($"You cannot play against another bot!");
+									// else if (mentioned[0].Status.Value == UserStatus.Offline)
+									//     await e.Channel.SendMessage($"You cannot play against an offline/invisible user!");
+									else if (mentioned[0] == e.User)
+										await e.Channel.SendMessage($"You cannot play a game with yourself!");
+									else
+									{
+										if (par.Length == 2)
+											TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
+										else
+											TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
+										await e.Channel.SendMessage("A new game has started!");
+									}
+								}
+								else if (i != -1) //if it has found the user
+									await e.Channel.SendMessage("You are already in a game in this channel."); //the user cannot play two game in a channel
+								else if (j != -1) //if it has found the mentioned user
+									await e.Channel.SendMessage("They are already in a game in this channel."); //the user cannot play with another user playing another game	
+							}
 						}
 						else
 							await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}"); // send default help message if no valid commands were detected
