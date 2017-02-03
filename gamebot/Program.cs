@@ -12,7 +12,7 @@ namespace gamebot
 
 		private static DiscordClient _client = new DiscordClient();
 
-		public static string prefix = "gb!"; // Sets custom bot prefix
+		public static string prefix = "g!"; // Sets custom bot prefix
 
 		List<TicTacToe> TTTGames = new List<TicTacToe>();
 
@@ -26,7 +26,15 @@ namespace gamebot
 				{
 					string cmd = new string(e.Message.RawText.Split(' ')[0].Skip(prefix.Length).ToArray()); // Grabs the command used by removing the prefix
 					string[] par = e.Message.RawText.Split(' ').Skip(1).ToArray(); // Grabs the arguments used in the command
-					if (cmd == "tictactoe") // tictactoe command code
+					if (cmd == "help") // help command code
+					{
+						string info = "Heya! I'm gamebot, a bot for automating various games. Here's a list of games/commands you can use:";
+						string help = "`g!help` - displays info about the bot & bot commands";
+						string ttt = "`g!ttt` - displays help about tic-tac-toe";
+
+						await e.Channel.SendMessage($"{info}\n\n{help}\n{ttt}");
+					}
+					else if (cmd == "ttt") // tictactoe command code
 					{
 						string helpNew = $"Type `{prefix}tictactoe new <mention>` to invite someone to play Tic Tac Toe.";
 						string helpPlay = $"Type `{prefix}tictactoe play <X> <Y>` to place a cross or a circle in a game.";
