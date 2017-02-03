@@ -131,7 +131,7 @@ namespace gamebot
 
 					else if (tileC == null)
 						gameTie = false; // sets game tie to false if a null tile is detected, which means game is unfinished
-					
+
 					if (tileR == false) //row check
 					{
 						crossPointsR++; // increments cross points by one
