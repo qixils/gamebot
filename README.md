@@ -7,13 +7,13 @@ You can add it to your server using [this link](https://discordapp.com/oauth2/au
 
 - `g!help` - displays info about the bot & bot command
 
-- `g!ttt` - displays help about tic-tac-toe
+- `g!info` - displays extra information about the bot
 
-- Hangman (`gb!hangman`)
+- `g!ttt` - displays help about tic-tac-toe
 
 ### Planned Games
 
-- None
+- Hangman (in development, check [`gamebot/hangman`](https://github.com/Noahkiq/gamebot/tree/hangman) - some code is currently in repo bc git is hard)
 
 - Have a game you want to see? [Request it on the issue page!](https://github.com/Noahkiq/gamebot/issues/new)
 
