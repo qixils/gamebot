@@ -7,9 +7,11 @@ You can add it to your server using [this link](https://discordapp.com/oauth2/au
 
 - Tic-Tac-Toe (`gb!tictactoe`)
 
+- Hangman (`gb!hangman`)
+
 ### Planned Games
 
-- Hangman
+- None
 
 - Have a game you want to see? [Request it on the issue page!](https://github.com/Noahkiq/gamebot/issues/new)
 
