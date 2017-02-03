@@ -21,6 +21,8 @@ You can add it to your server using [this link](https://discordapp.com/oauth2/au
 
 [@Technochips](https://github.com/Technochips) - Coded most of TTT
 
+[SIL International](http://www-01.sil.org/linguistics/wordlists/english/) - Providing the default list of English words for hangman
+
 ### Contributing
 
 If you want to contribute to the bot, please comment any code you make to make it easy to figure out what the code does, then create a pull request.
