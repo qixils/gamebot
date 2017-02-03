@@ -26,15 +26,33 @@ namespace gamebot
 				{
 					if (!e.User.IsBot)
 					{
-						string cmd = new string(e.Message.RawText.Split(' ')[0].Skip(prefix.Length).ToArray()); // Grabs the command used by removing the prefix
-						string[] par = e.Message.RawText.Split(' ').Skip(1).ToArray(); // Grabs the arguments used in the command
+						string msg = e.Message.Text;
+						string rawcmd = "no-cmd"; // Filler command
+						if(msg.StartsWith(prefix)) // Check if message starts with prefix
+							rawcmd = msg.Replace(prefix, ""); // Set rawcmd to full command (cmd + arguments)
+						string cmd = rawcmd.Split(' ')[0]; // Grab just the command
+
+						string[] par = msg.Split(' ').Skip(1).ToArray(); // Grabs the arguments used in the command
+
+//						string parContents = null;
+//						foreach (string arg in par)
+//							parContents += arg + " ";
+//						Console.WriteLine(parContents);
+
 						if (cmd == "help") // help command code
 						{
-							string info = "Heya! I'm gamebot, a bot for automating various games. Here's a list of games/commands you can use:";
+							string greet = "Heya! I'm gamebot, a bot for automating various games. Here's a list of games/commands you can use:";
 							string help = "`g!help` - displays info about the bot & bot commands";
+							string info = "`g!info` - displays extra info about the bot";
 							string ttt = "`g!ttt` - displays help about tic-tac-toe";
 
-							await e.Channel.SendMessage($"{info}\n\n{help}\n{ttt}");
+							await e.Channel.SendMessage($"{greet}\n\n{help}\n{info}\n{ttt}");
+						}
+						else if (cmd == "info") // info command
+						{
+							string contributors = "`Noahkiq` and `Technochips`";
+							string message = $"Heya! I'm gamebot, a bot for automating various games. I've been created by {contributors}. You can report issues, make suggestions, or examine my source code at <https://github.com/Noahkiq/gamebot/>.";
+							await e.Channel.SendMessage(message);
 						}
 						else if (cmd == "ttt") // tictactoe command code
 						{
