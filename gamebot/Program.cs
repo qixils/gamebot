@@ -59,7 +59,7 @@ namespace gamebot
 							else if (par[0] == "new")
 							{
 								User[] mentioned = e.Message.MentionedUsers.ToArray();
-								if (mentioned.Length != 1)
+								if (mentioned.Length != 1 || mentioned[0] == null)
 									await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is show
 								else
 								{
@@ -75,11 +75,16 @@ namespace gamebot
 											await e.Channel.SendMessage($"You cannot play a game with yourself!");
 										else
 										{
-											if (par.Length == 2)
+											if (par.Length == 2) {
 												TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
+												await e.Channel.SendMessage("A new game has started!");
+											}
+											else if (int.TryParse(par[2]) && int.TryParse(par[3])) {
+												TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, channel, and board size
+												await e.Channel.SendMessage($"A new game has started with a board size of {int.Parse(par[2])} x {int.Parse(par[3])}!");
+											}
 											else
-												TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
-											await e.Channel.SendMessage("A new game has started!");
+												await e.Channel.SendMessage($"An error occured. You likely put random characters instead of numbers for the board size.");
 										}
 									}
 									else if (i != -1) //if it has found the user
