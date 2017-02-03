@@ -9,9 +9,11 @@ You can add it to your server using [this link](https://discordapp.com/oauth2/au
 
 - `g!ttt` - displays help about tic-tac-toe
 
+- Hangman (`gb!hangman`)
+
 ### Planned Games
 
-- Hangman
+- None
 
 - Have a game you want to see? [Request it on the issue page!](https://github.com/Noahkiq/gamebot/issues/new)
 
@@ -20,6 +22,8 @@ You can add it to your server using [this link](https://discordapp.com/oauth2/au
 [@Noahkiq](https://github.com/Noahkiq) - Setup the project, worked on TTT win algorithms
 
 [@Technochips](https://github.com/Technochips) - Coded most of TTT
+
+[SIL International](http://www-01.sil.org/linguistics/wordlists/english/) - Providing the default list of English words for hangman
 
 ### Contributing
 
