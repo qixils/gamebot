@@ -13,7 +13,7 @@ You can add it to your server using [this link](https://discordapp.com/oauth2/au
 
 ### Planned Games
 
-- Hangman (in development, check [`gamebot/hangman`](https://github.com/Noahkiq/gamebot/tree/hangman) - some code is currently in repo bc git is hard)
+- Hangman (in development, check [`gamebot/hangman`](https://github.com/Noahkiq/gamebot/tree/hangman) - some code is currently in `master` because git conflicts are hard)
 
 - Have a game you want to see? [Request it on the issue page!](https://github.com/Noahkiq/gamebot/issues/new)
 
