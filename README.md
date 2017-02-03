@@ -3,9 +3,11 @@
 gamebot is a C# bot for [Discord](https://discordapp.com/) made to automate games.
 You can add it to your server using [this link](https://discordapp.com/oauth2/authorize?client_id=273973153104134144&scope=bot).
 
-## Available Games
+## Available Commands
 
-- Tic-Tac-Toe (`gb!tictactoe`)
+- `g!help` - displays info about the bot & bot command
+
+- `g!ttt` - displays help about tic-tac-toe
 
 ### Planned Games
 
