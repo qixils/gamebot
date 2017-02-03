@@ -36,9 +36,9 @@ namespace gamebot
 					}
 					else if (cmd == "ttt") // tictactoe command code
 					{
-						string helpNew = $"Type `{prefix}tictactoe new <mention>` to invite someone to play Tic Tac Toe.";
-						string helpPlay = $"Type `{prefix}tictactoe play <X> <Y>` to place a cross or a circle in a game.";
-						string helpCancel = $"Type `{prefix}tictactoe cancel` to cancel your current game in this channel.";
+						string helpNew = $"Type `{prefix}{cmd} new <mention>` to invite someone to play Tic Tac Toe.";
+						string helpPlay = $"Type `{prefix}{cmd} play <X> <Y>` to place a cross or a circle in a game.";
+						string helpCancel = $"Type `{prefix}{cmd} cancel` to cancel your current game in this channel.";
 						if (par.Length == 1) // checks if only one command argument was supplied
 						{
 							if (par[0] == "new")
