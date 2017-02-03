@@ -95,12 +95,12 @@ namespace gamebot
 													int.Parse(par[3]);
 												}
 												catch {
-												validInts = false;
+													validInts = false;
 												}
 
 												if (validInts) {
-												    TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, channel, and board size
-												    await e.Channel.SendMessage($"A new game has started with a board size of {int.Parse(par[2])} x {int.Parse(par[3])}!");
+													TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, channel, and board size
+													await e.Channel.SendMessage($"A new game has started with a board size of {int.Parse(par[2])} x {int.Parse(par[3])}!");
 												}
 												else
 													await e.Channel.SendMessage($"**Error:** Invalid integers were supplied for the board size.");
