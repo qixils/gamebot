@@ -87,12 +87,24 @@ namespace gamebot
 												TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
 												await e.Channel.SendMessage("A new game has started!");
 											}
-											else if (int.TryParse(par[2]) && int.TryParse(par[3])) {
-												TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, channel, and board size
-												await e.Channel.SendMessage($"A new game has started with a board size of {int.Parse(par[2])} x {int.Parse(par[3])}!");
+											else if (par.Length == 3) {
+												bool validInts = true;
+
+												try {
+													int.Parse(par[2]);
+													int.Parse(par[3]);
+												}
+												catch {
+												validInts = false;
+												}
+
+												if (validInts) {
+												    TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, channel, and board size
+												    await e.Channel.SendMessage($"A new game has started with a board size of {int.Parse(par[2])} x {int.Parse(par[3])}!");
+												}
+												else
+													await e.Channel.SendMessage($"**Error:** Invalid integers were supplied for the board size.");
 											}
-											else
-												await e.Channel.SendMessage($"An error occured. You likely put random characters instead of numbers for the board size.");
 										}
 									}
 									else if (i != -1) //if it has found the user
