@@ -7,10 +7,10 @@ namespace gamebot
 	{
 		public User cross;
 		public User circle;
-		Channel channel;
-		bool?[,] game;
+		public Channel channel;
+		public bool?[,] game;
 
-		bool isCircleTurn;
+		public bool isCircleTurn;
 
 		public TicTacToe(User cross, User circle, Channel channel, int width = 3, int height = 3)
 		{
@@ -222,6 +222,28 @@ namespace gamebot
 			r.Game = game;
 			r.IsCircleTurn = isCircleTurn;
 			return r;
+		}
+		public static JSON.TicTacToe ToStruct(TicTacToe t)
+		{
+			return t.ToStruct();
+		}
+		public static TicTacToe ToClass(JSON.TicTacToe t, DiscordClient client)
+		{
+			/*Console.WriteLine(t.Cross);
+			Console.WriteLine(t.Circle);
+			Console.WriteLine(t.Channel);*/
+
+			//Console.WriteLine("d");
+			Channel c = client.GetChannel(t.Channel);
+			/*if (c != null)
+				Console.WriteLine(c.Id);
+			else
+				Console.WriteLine("is null");*/
+			TicTacToe ttt = new TicTacToe(c.GetUser(t.Cross), c.GetUser(t.Circle), c);
+			//Console.WriteLine("f");
+			ttt.game = t.Game;
+			//Console.WriteLine("g");
+			return ttt;
 		}
 	}
 }

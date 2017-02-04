@@ -217,13 +217,27 @@ namespace gamebot
 					Console.WriteLine(ex);
 				}
 			};
-
 			string token = File.ReadAllText("bot-token.txt");
 			_client.ExecuteAndWait(async () =>
 				{
 					await _client.Connect(token, TokenType.Bot);
 				});
-
+			_client.Ready += (s,e) =>
+			{
+				//Console.WriteLine("a");
+				if (File.Exists(Save.path + "ttt.json"))
+				{
+					//Console.WriteLine("a");
+					JSON.TicTacToe[] gamej = Save.Load<JSON.TicTacToe[]>("ttt.json");
+					//Console.WriteLine(gamej.Length);
+					foreach (JSON.TicTacToe j in gamej)
+					{
+						//Console.WriteLine("b");
+						TTTGames.Add(TicTacToe.ToClass(j, _client));
+					}
+					//Console.WriteLine("c");
+				}
+			};
 		}
 	}
 }
