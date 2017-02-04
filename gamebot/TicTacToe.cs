@@ -213,5 +213,15 @@ namespace gamebot
 			CircleWin,	//when circle wins
 			Tie			//when none wins, and cannot wins by placing more crosses or circles
 		}
+		public JSON.TicTacToe ToStruct()
+		{
+			JSON.TicTacToe r = new JSON.TicTacToe();
+			r.Cross = cross.Id;
+			r.Circle = circle.Id;
+			r.Channel = channel.Id;
+			r.Game = game;
+			r.IsCircleTurn = isCircleTurn;
+			return r;
+		}
 	}
 }

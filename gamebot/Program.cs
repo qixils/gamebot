@@ -76,6 +76,15 @@ namespace gamebot
 									else
 										await e.Channel.SendMessage($"You are currently not in a game in this channel.");
 								}
+								else if (par[0] == "save")
+								{
+									List<JSON.TicTacToe> ttts = new List<JSON.TicTacToe>();
+									foreach (TicTacToe t in TTTGames)
+									{
+										ttts.Add(t.ToStruct());
+									}
+									Save.Saves(ttts.ToArray(), "ttt.json");
+								}
 								else
 									await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
 							}
@@ -203,7 +212,9 @@ namespace gamebot
 				catch(Exception ex)
 				{
 					await e.Channel.SendMessage("**Error:** A unexcepted error happened.\nIf you think this bug should be fixed, go here: <https://github.com/Noahkiq/gamebot/issues>");
-					await e.Channel.SendMessage($"```\n{ex}```");
+					if(ex.ToString().Length < 2000)
+						await e.Channel.SendMessage($"```\n{ex}```");
+					Console.WriteLine(ex);
 				}
 			};
 
