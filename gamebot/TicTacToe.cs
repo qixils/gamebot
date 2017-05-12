@@ -1,18 +1,24 @@
-﻿using System;
-using Discord;
+﻿using Discord;
+using Discord.WebSocket;
+
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace gamebot
 {
 	public class TicTacToe
 	{
-		public User cross;
-		public User circle;
-		public Channel channel;
+		public SocketUser cross;
+		public SocketUser circle;
+		public SocketChannel channel;
 		public bool?[,] game;
 
 		public bool isCircleTurn;
 
-		public TicTacToe(User cross, User circle, Channel channel, int width = 3, int height = 3)
+		public TicTacToe(SocketUser cross, SocketUser circle, SocketChannel channel, int width = 3, int height = 3)
 		{
 			// variables are updated to match game
 			this.cross = cross;
@@ -21,10 +27,13 @@ namespace gamebot
 
 			game = new bool?[width,height];
 		}
-		public bool? TakeTurn(User player, int x, int y)
+		public int? TakeTurn(SocketUser player, int x, int y)
 		{
 			x--;
 			y--;
+
+            if (x < 0 | x >= game.GetLength(0) | y < 0 | y >= game.GetLength(1))
+                return 2;
 
 			if (game[x, y] == null) //check the coordinate to see if it's empty
 			{
@@ -42,12 +51,12 @@ namespace gamebot
 						game[x, y] = false; //set the coordinate x y to a cross
 
 					isCircleTurn = !isCircleTurn;
-					return true;
+					return 0;
 				}
 			}
 			else
-				return null;
-			return false;
+				return -1;
+			return 1;
 		}
 		public string DrawGame()
 		{
@@ -62,7 +71,7 @@ namespace gamebot
 			for (int i = 0; i < height; i++)
 			{
 				result += '\n';	//everytime it go to the next row in the game, creates a new line
-				result += i + 1;	//it also enters the current height line
+				result += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i];	//it also enters the current height line
 				for (int j = 0; j < width; j++) //loop in every column of the game
 				{
 					if (game[j, i] == null)
@@ -189,7 +198,7 @@ namespace gamebot
 			else
 				return GameStat.Unfinished; // tell code the game is going on
 		}
-		public static int SearchPlayer(TicTacToe[] games, User player, Channel channel)
+		public static int SearchPlayer(TicTacToe[] games, SocketUser player, SocketChannel channel)
 		{
 			int r = -1; //if it couldn't find it
 			for (int i = 0; i < games.Length; i++) // iterate through all variables in 'games' by initially setting int 'i' to 0, checking if it's less than the total number of games, then adding one
@@ -227,14 +236,14 @@ namespace gamebot
 		{
 			return t.ToStruct();
 		}
-		public static TicTacToe ToClass(JSON.TicTacToe t, DiscordClient client)
+		public static TicTacToe ToClass(JSON.TicTacToe t, DiscordSocketClient client)
 		{
-			/*Console.WriteLine(t.Cross);
+            /*Console.WriteLine(t.Cross);
 			Console.WriteLine(t.Circle);
 			Console.WriteLine(t.Channel);*/
 
-			//Console.WriteLine("d");
-			Channel c = client.GetChannel(t.Channel);
+            //Console.WriteLine("d");
+            SocketChannel c = client.GetChannel(t.Channel);
 			/*if (c != null)
 				Console.WriteLine(c.Id);
 			else
