@@ -14,7 +14,7 @@ namespace gamebot
 	{  
         private static DiscordSocketClient _client = new DiscordSocketClient();
 
-        public static string prefix = "eb!"; // Sets custom bot prefix
+        public static string prefix = "g!"; // Sets custom bot prefix
         List<TicTacToe> TTTGames = new List<TicTacToe>();
 
         public static void Main(string[] args)
