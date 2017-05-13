@@ -3,7 +3,7 @@ using Discord;
 
 namespace gamebot
 {
-    public class UltimateTicTacToe //literally copypasted tic tac toe
+	public class UltimateTicTacToe //literally copypasted tic tac toe
 	{
 		public User cross;
 		public User circle;
@@ -12,21 +12,50 @@ namespace gamebot
 
 		public bool isCircleTurn;
 
-        public int swidth, sheight, bwidth, bheight;
+		public int swidth, sheight, bwidth, bheight;
 
-        public UltimateTicTacToe(User cross, User circle, Channel channel, int swidth = 3, int sheight = 3, int bwidth = 3, int bheight = 3)
+		public UltimateTicTacToe(User cross, User circle, Channel channel, int swidth = 3, int sheight = 3, int bwidth = 3, int bheight = 3)
 		{
 			// variables are updated to match game
 			this.cross = cross;
 			this.circle = circle;
 			this.channel = channel;
 
-            this.swidth = swidth; //width of the small grids
-            this.bwidth = bwidth; //width of the big grid
-            this.sheight = sheight; //height of the small grids
-            this.bheight = bheight; //height of the big grid;
+			this.swidth = swidth; //width of the small grids
+			this.bwidth = bwidth; //width of the big grid
+			this.sheight = sheight; //height of the small grids
+			this.bheight = bheight; //height of the big grid;
 
 			game = new bool?[swidth * bwidth, sheight * bheight];
+		}
+		public string DrawGame()
+		{
+			int width = game.GetLength(0); //get the width of the game
+			int height = game.GetLength(1); //get the height of the game
+			string result = "▪️"; //create empty result with one space
+
+			for (int i = 0; i < width; i++)
+			{
+				if (i < 10)
+					result += (i + 1) + "⃣";
+			}
+			for (int i = 0; i < height; i++)
+			{
+				result += '\n'; //everytime it go to the next row in the game, creates a new line
+				if (i < 10)
+                    result += (i + 1) + "⃣";
+				for (int j = 0; j < width; j++) //loop in every column of the game
+				{
+					if (game[j, i] == null)
+						result += "🔲"; //if it finds 'null' at [j,i] (x,y), it puts a space
+					else if (game[j, i] == false)
+						result += '❌'; //if it finds 'false' at [j,i] (x,y), it puts a cross
+					else if (game[j, i] == true)
+						result += "⭕️"; //if it finds 'true' at [j,i] (x,y), it puts a circle
+				}
+			}
+			return result; //return the drawn string
+            //if a empty square is white, you can place your shape in it
 		}
 		public static int SearchPlayer(UltimateTicTacToe[] games, User player, Channel channel)
 		{
@@ -45,5 +74,5 @@ namespace gamebot
 			}
 			return r; // returns 'r' (the index in the array) back to initiating code
 		}
-    }
+	}
 }

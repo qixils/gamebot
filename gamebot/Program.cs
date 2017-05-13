@@ -230,6 +230,7 @@ namespace gamebot
 										{
 											UTTTGames.Add(new UltimateTicTacToe(e.User, mentioned[0], e.Channel));
 											await e.Channel.SendMessage("A new game has started!");
+                                            await e.Channel.SendMessage(UTTTGames.Last().DrawGame());
 										}
 									}
 								}
