@@ -14,6 +14,8 @@ namespace gamebot
     {
         private static DiscordSocketClient _client = new DiscordSocketClient();
 
+        public List<PastGame> past_games = new List<PastGame>();
+
         public static string prefix = "g!"; // Sets custom bot prefix
         List<TicTacToe> TTTGames = new List<TicTacToe>();
 
@@ -43,12 +45,20 @@ namespace gamebot
 
         private void SaveState()
         {
-            List<JSON.TicTacToe> ttts = new List<JSON.TicTacToe>();
+            List<JSON.TicTacToeStruct> ttts = new List<JSON.TicTacToeStruct>();
             foreach (TicTacToe t in TTTGames)
             {
                 ttts.Add(t.ToStruct());
             }
             Save.Saves(ttts.ToArray(), "ttt.json");
+
+            List<JSON.PastGame> games = new List<JSON.PastGame>();
+            foreach (PastGame pg in past_games)
+            {
+                games.Add(pg.ToStruct());
+            }
+            Save.Saves(games.ToArray(), "pastgames.json");
+
             // Console.WriteLine("[Debug] TicTacToe: Saved!");
         }
 
@@ -105,6 +115,13 @@ namespace gamebot
                                 await e.Channel.SendMessageAsync(helpNew); // outputs the 'helpNew' string if the argument was 'new'
                             else if (par[0] == "play")
                                 await e.Channel.SendMessageAsync(helpPlay); // same as above comment, but with 'helpPlay' string and 'play' arg
+                            else if (par[0] == "scoreboard" | par[0] == "scores")
+                            {
+                                foreach (PastGame j in past_games)
+                                {
+                                    Console.WriteLine(j.ToString());
+                                }
+                            }
                             else if (par[0] == "show")
                             {
                                 int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.Author, e.Channel as SocketChannel);
@@ -162,11 +179,13 @@ namespace gamebot
                                             if (c == TicTacToe.GameStat.CircleWin || c == TicTacToe.GameStat.CrossWin) //if someone wins
                                             {
                                                 await e.Channel.SendMessageAsync($"Congratulation, <@{e.Author.Id}>, you won!");
+                                                past_games.Add(new PastGame(TTTGames[i].cross, TTTGames[i].circle, TTTGames[i].channel, TTTGames[i].start_time, TTTGames[i].end_time, c));
                                                 TTTGames.RemoveAt(i); //delete the game
                                             }
                                             else if (c == TicTacToe.GameStat.Tie) //if there is a tie
                                             {
                                                 await e.Channel.SendMessageAsync("You are both stuck, there is a tie. The game has ended.");
+                                                past_games.Add(new PastGame(TTTGames[i].cross, TTTGames[i].circle, TTTGames[i].channel, TTTGames[i].start_time, TTTGames[i].end_time, c));
                                                 TTTGames.RemoveAt(i); //delete the game
                                             }
                                             //otherwise well the game continues
@@ -332,11 +351,27 @@ namespace gamebot
             if (File.Exists(Save.path + "ttt.json"))
             {
                 Console.WriteLine("[Info] TicTacToe: Games file found. Loading.");
-                JSON.TicTacToe[] gamej = Save.Load<JSON.TicTacToe[]>("ttt.json");
+                JSON.TicTacToeStruct[] gamej = Save.Load<JSON.TicTacToeStruct[]>("ttt.json");
 
-                foreach (JSON.TicTacToe j in gamej)
+                foreach (JSON.TicTacToeStruct j in gamej)
                 {
                     TTTGames.Add(TicTacToe.ToClass(j, _client));
+                }
+
+                if (gamej.Length == 1)
+                    Console.WriteLine("[Info] TicTacToe: Loaded " + gamej.Length.ToString() + " game from file!");
+                else
+                    Console.WriteLine("[Info] TicTacToe: Loaded " + gamej.Length.ToString() + " games from file!");
+            }
+
+            if (File.Exists(Save.path + "pastgames.json"))
+            {
+                Console.WriteLine("[Info] TicTacToe: Scoreboard file found. Loading.");
+                JSON.PastGame[] gamej = Save.Load<JSON.PastGame[]>("pastgames.json");
+
+                foreach (JSON.PastGame j in gamej)
+                {
+                    past_games.Add(PastGame.ToClass(j, _client));
                 }
 
                 if (gamej.Length == 1)

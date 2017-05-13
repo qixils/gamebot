@@ -15,11 +15,14 @@ namespace gamebot
         public SocketUser circle;
         public SocketChannel channel;
         public bool?[,] game;
+        public DateTime start_time;
+        public DateTime end_time;
 
         public bool isCircleTurn;
 
         public TicTacToe(SocketUser cross, SocketUser circle, SocketChannel channel, int width = 3, int height = 3)
         {
+            this.start_time = DateTime.Now;
             // variables are updated to match game
             this.cross = cross;
             this.circle = circle;
@@ -109,6 +112,7 @@ namespace gamebot
             }
             if (game_tie)
             {
+                this.end_time = DateTime.Now;
                 return GameStat.Tie;
             }
             
@@ -121,6 +125,7 @@ namespace gamebot
                 (game[0, 0] == false & game[1, 1] == false & game[2, 2] == false) | // diagonal`
                 (game[2, 0] == false & game[1, 1] == false & game[0, 2] == false))
             {
+                this.end_time = DateTime.Now;
                 return GameStat.CircleWin;
             }
 
@@ -133,6 +138,7 @@ namespace gamebot
                 (game[0, 0] == true & game[1, 1] == true & game[2, 2] == true) | // diagonal`
                 (game[2, 0] == true & game[1, 1] == true & game[0, 2] == true))
             {
+                this.end_time = DateTime.Now;
                 return GameStat.CrossWin;
             }
 
@@ -163,9 +169,9 @@ namespace gamebot
             CircleWin,  //when circle wins
             Tie         //when none wins, and cannot wins by placing more crosses or circles
         }
-        public JSON.TicTacToe ToStruct()
+        public JSON.TicTacToeStruct ToStruct()
         {
-            JSON.TicTacToe r = new JSON.TicTacToe();
+            JSON.TicTacToeStruct r = new JSON.TicTacToeStruct();
             r.Cross = cross.Id;
             r.Circle = circle.Id;
             r.Channel = channel.Id;
@@ -173,11 +179,11 @@ namespace gamebot
             r.IsCircleTurn = isCircleTurn;
             return r;
         }
-        public static JSON.TicTacToe ToStruct(TicTacToe t)
+        public static JSON.TicTacToeStruct ToStruct(TicTacToe t)
         {
             return t.ToStruct();
         }
-        public static TicTacToe ToClass(JSON.TicTacToe t, DiscordSocketClient client)
+        public static TicTacToe ToClass(JSON.TicTacToeStruct t, DiscordSocketClient client)
         {
             /*Console.WriteLine(t.Cross);
 			Console.WriteLine(t.Circle);

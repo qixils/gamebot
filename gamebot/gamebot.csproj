@@ -178,9 +178,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JSON\PastGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="packages.config" />
+    <Compile Include="PastGame.cs" />
     <Compile Include="TicTacToe.cs" />
     <None Include="Hangman.cs" />
     <Compile Include="Save.cs" />
