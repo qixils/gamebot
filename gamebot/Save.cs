@@ -17,7 +17,7 @@ namespace gamebot
 		{
 			if (!File.Exists(path + file))
 				throw new FileNotFoundException();
-			Console.WriteLine(File.ReadAllText(path + file));
+			// Console.WriteLine(File.ReadAllText(path + file));
 			return JsonConvert.DeserializeObject<T>(File.ReadAllText(path + file));
 		}
 	}

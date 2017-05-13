@@ -14,7 +14,7 @@ namespace gamebot
     {
         private static DiscordSocketClient _client = new DiscordSocketClient();
 
-        public static string prefix = "g!"; // Sets custom bot prefix
+        public static string prefix = "eb!"; // Sets custom bot prefix
         List<TicTacToe> TTTGames = new List<TicTacToe>();
 
         public static void Main(string[] args)
@@ -94,6 +94,17 @@ namespace gamebot
                                 await e.Channel.SendMessageAsync(helpNew); // outputs the 'helpNew' string if the argument was 'new'
                             else if (par[0] == "play")
                                 await e.Channel.SendMessageAsync(helpPlay); // same as above comment, but with 'helpPlay' string and 'play' arg
+                            else if (par[0] == "show")
+                            {
+                                int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.Author, e.Channel as SocketChannel);
+                                if (i != -1) //checks if it actually finds a player
+                                {
+                                    await e.Channel.SendMessageAsync("```\n" + TTTGames[i].DrawGame() + "\n" + TTTGames[i].circle.ToString() + "```");
+                                } else
+                                {
+                                    await e.Channel.SendMessageAsync("You are not currently in a game in this channel.");
+                                }
+                            }
                             else if (par[0] == "cancel")
                             {
                                 int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.Author, e.Channel as SocketChannel); // searches for a game with command runner and channel
@@ -113,6 +124,8 @@ namespace gamebot
                                     ttts.Add(t.ToStruct());
                                 }
                                 Save.Saves(ttts.ToArray(), "ttt.json");
+
+                                await e.Channel.SendMessageAsync("Saved!");
                             }
                             else
                                 await e.Channel.SendMessageAsync($"{helpNew}\n{helpPlay}\n{helpCancel}");
@@ -270,7 +283,7 @@ namespace gamebot
                                         await e.Channel.SendMessageAsync("You can't place a shape onto another shape."); //the user cannot cheat by replacing a shape
                                 }
                                 else
-                                    await e.Channel.SendMessageAsync("You are currently not in a game in this channel."); //the user cannot play if he's not playing
+                                    await e.Channel.SendMessageAsync("You are not currently in a game in this channel."); //the user cannot play if he's not playing
                             }
                             else
                                 await e.Channel.SendMessageAsync($"{helpNew}\n{helpPlay}\n{helpCancel}"); // invalid arguments given, help displayed
@@ -305,18 +318,20 @@ namespace gamebot
 
         private Task Ready()
         {
-            //Console.WriteLine("a");
             if (File.Exists(Save.path + "ttt.json"))
             {
-                //Console.WriteLine("a");
+                Console.WriteLine("[Info] TicTacToe: Games file found. Loading.");
                 JSON.TicTacToe[] gamej = Save.Load<JSON.TicTacToe[]>("ttt.json");
-                Console.WriteLine(gamej.Length);
+
                 foreach (JSON.TicTacToe j in gamej)
                 {
-                    //Console.WriteLine("b");
-                    //TTTGames.Add(TicTacToe.ToClass(j, _client));
+                    TTTGames.Add(TicTacToe.ToClass(j, _client));
                 }
-                //Console.WriteLine("c");
+
+                if (gamej.Length == 1)
+                    Console.WriteLine("[Info] TicTacToe: Loaded " + gamej.Length.ToString() + " game from file!");
+                else
+                    Console.WriteLine("[Info] TicTacToe: Loaded " + gamej.Length.ToString() + " games from file!");
             }
 
             return Task.CompletedTask;

@@ -95,103 +95,7 @@ namespace gamebot
             // define some variables
             int width = game.GetLength(0); //get the width of the game
             int height = game.GetLength(1); //get the height of the game
-
-            /*
-            bool gameTie = true;
-            bool circleWin = false;
-            bool crossWin = false;
-
-            for (int i = 0; i < game.GetLength(0); i++)
-            {
-                // gets every row in 'game'
-                // defines temporary variables
-                int crossPointsC = 0;   //collumn points
-                int circlePointsC = 0;
-                int crossPointsR = 0;   //row points
-                int circlePointsR = 0;
-                int crossPointsDR = 0;  //down-right points
-                int circlePointsDR = 0;
-
-                for (int j = 0; j < game.GetLength(1); j++)
-                {
-                    var tileC = game[i, j]; //collumn points
-                    var tileR = game[j, i]; //row points
-
-                    if ((i == j) && (tileC == false))
-                    {
-                        crossPointsDR++;
-                        circlePointsDR = 0;
-                    }
-                    else if ((i == j) && (tileC == true))
-                    {
-                        circlePointsDR++;
-                        crossPointsDR = 0;
-                    }
-
-                    if (tileC == false) //collumn check
-                    {
-                        crossPointsC++; // increments cross points by one
-                        circlePointsC = 0; // sets circle points to zero
-                    }
-
-                    else if (tileC == true)
-                    {
-                        circlePointsC++; // increments circle points
-                        crossPointsC = 0; // sets cross points to zero
-                    }
-
-                    else if (tileC == null)
-                        gameTie = false; // sets game tie to false if a null tile is detected, which means game is unfinished
-
-                    if (tileR == false) //row check
-                    {
-                        crossPointsR++; // increments cross points by one
-                        circlePointsR = 0; // sets circle points to zero
-                    }
-
-                    else if (tileR == true)
-                    {
-                        circlePointsR++; // increments circle points
-                        crossPointsR = 0; // sets cross points to zero
-                    }
-
-                    else if (tileR == null)
-                        gameTie = false; // sets game tie to false if a null tile is detected, which means game is unfinished
-                }
-
-                if (crossPointsC == height || crossPointsR == width || crossPointsDR == height) // checks if crossPoints are the same as height
-                    crossWin = true; // sets crossWin to true
-                else if (circlePointsC == height || circlePointsR == width || circlePointsDR == height) // similar to above
-                    circleWin = true; // still similar to above
-            }
-            int crossPoints = 0;  //down-right points
-            int circlePoints = 0;
-
-            for (int i = 0; i < game.GetLength(0); i++)
-            {
-                for (int j = game.GetLength(1) - 1; j >= 0; j--)
-                {
-                    //Console.WriteLine(i + "," + j);
-                    var tile = game[i, j];
-
-                    if ((i == ((j * -1) + (game.GetLength(0) - 1))) && (tile == false))
-                    {
-                        crossPoints++;
-                        circlePoints = 0;
-                    }
-                    else if ((i == ((j * -1) + (game.GetLength(0) - 1))) && (tile == true))
-                    {
-                        circlePoints++;
-                        crossPoints = 0;
-                    }
-                }
-            }
-            if (crossPoints == height) // checks if crossPoints are the same as height
-                crossWin = true; // sets crossWin to true
-            else if (circlePoints == height) // similar to above
-                circleWin = true; // still similar to above
-                */
-
+            
             bool game_tie = true;
             for (int x = 0; x < width; x ++)
             {
@@ -288,6 +192,7 @@ namespace gamebot
             TicTacToe ttt = new TicTacToe(c.GetUser(t.Cross), c.GetUser(t.Circle), c);
             //Console.WriteLine("f");
             ttt.game = t.Game;
+            ttt.isCircleTurn = t.IsCircleTurn;
             //Console.WriteLine("g");
             return ttt;
         }
