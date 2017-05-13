@@ -12,7 +12,7 @@ namespace gamebot
 
 		private static DiscordClient _client = new DiscordClient();
 
-		public static string prefix = "g!"; // Sets custom bot prefix
+		public static string prefix = "d!"; // Sets custom bot prefix
 
 		List<TicTacToe> TTTGames = new List<TicTacToe>();
 
@@ -194,6 +194,16 @@ namespace gamebot
 							else
 								await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
 						}
+                        else if(cmd == "uttt")
+						{
+							string helpNew = $"Type `{prefix}{cmd} new <mention>` to invite someone to play Ultimate Tic Tac Toe.";
+							string helpPlay = $"Type `{prefix}{cmd} play <X> <Y>` to place a cross or a circle in a game.";
+							string helpCancel = $"Type `{prefix}{cmd} cancel` to cancel your current game in this channel.";
+                            if (par.Length == 0)
+							{
+								await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
+                            }
+                        }
 //						else if (cmd == "hangman") // hangman command code
 //						{
 //							if (par.Length == 1) // checks if only one command argument was supplied
@@ -218,7 +228,7 @@ namespace gamebot
 				}
 			};
 			string token = File.ReadAllText("bot-token.txt");
-			_client.ExecuteAndWait(async () =>
+            _client.ExecuteAndWait(async () =>
 				{
 					await _client.Connect(token, TokenType.Bot);
 				});

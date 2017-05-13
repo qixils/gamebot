@@ -63,6 +63,7 @@
     <Compile Include="Hangman.cs" />
     <Compile Include="Save.cs" />
     <Compile Include="JSON\TicTacToe.cs" />
+    <Compile Include="UltimateTicTacToe.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
