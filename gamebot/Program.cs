@@ -305,18 +305,18 @@ namespace gamebot
 
         private Task Ready()
         {
-            Console.WriteLine("a");
+            //Console.WriteLine("a");
             if (File.Exists(Save.path + "ttt.json"))
             {
-                Console.WriteLine("a");
+                //Console.WriteLine("a");
                 JSON.TicTacToe[] gamej = Save.Load<JSON.TicTacToe[]>("ttt.json");
                 Console.WriteLine(gamej.Length);
                 foreach (JSON.TicTacToe j in gamej)
                 {
-                    Console.WriteLine("b");
+                    //Console.WriteLine("b");
                     //TTTGames.Add(TicTacToe.ToClass(j, _client));
                 }
-                Console.WriteLine("c");
+                //Console.WriteLine("c");
             }
 
             return Task.CompletedTask;

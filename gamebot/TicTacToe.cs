@@ -95,6 +95,8 @@ namespace gamebot
             // define some variables
             int width = game.GetLength(0); //get the width of the game
             int height = game.GetLength(1); //get the height of the game
+
+            /*
             bool gameTie = true;
             bool circleWin = false;
             bool crossWin = false;
@@ -188,15 +190,50 @@ namespace gamebot
                 crossWin = true; // sets crossWin to true
             else if (circlePoints == height) // similar to above
                 circleWin = true; // still similar to above
+                */
 
-            if (circleWin)
-                return GameStat.CircleWin; // tell code circle won
-            else if (crossWin)
-                return GameStat.CrossWin; // tell code cross won
-            else if (gameTie)
-                return GameStat.Tie; // tell code nobody won
-            else
-                return GameStat.Unfinished; // tell code the game is going on
+            bool game_tie = true;
+            for (int x = 0; x < width; x ++)
+            {
+                for (int y = 0; y < height; y ++)
+                {
+                    if (game[x, y] == null)
+                    {
+                        game_tie = false;
+                    }
+                }
+            }
+            if (game_tie)
+            {
+                return GameStat.Tie;
+            }
+            
+            if ((game[0, 0] == false & game[1, 0] == false & game[2, 0] == false) | // across the top
+                (game[0, 1] == false & game[1, 1] == false & game[2, 1] == false) | // across the middfalse
+                (game[0, 2] == false & game[1, 2] == false & game[2, 2] == false) | // across the bottom
+                (game[0, 0] == false & game[0, 1] == false & game[0, 2] == false) | // down the falseft side
+                (game[1, 0] == false & game[1, 1] == false & game[1, 2] == false) | // down the middfalse
+                (game[2, 0] == false & game[2, 1] == false & game[2, 2] == false) | // down the right side
+                (game[0, 0] == false & game[1, 1] == false & game[2, 2] == false) | // diagonal`
+                (game[2, 0] == false & game[1, 1] == false & game[0, 2] == false))
+            {
+                return GameStat.CircleWin;
+            }
+
+            if ((game[0, 0] == true & game[1, 0] == true & game[2, 0] == true) | // across the top
+                (game[0, 1] == true & game[1, 1] == true & game[2, 1] == true) | // across the middtrue
+                (game[0, 2] == true & game[1, 2] == true & game[2, 2] == true) | // across the bottom
+                (game[0, 0] == true & game[0, 1] == true & game[0, 2] == true) | // down the trueft side
+                (game[1, 0] == true & game[1, 1] == true & game[1, 2] == true) | // down the middtrue
+                (game[2, 0] == true & game[2, 1] == true & game[2, 2] == true) | // down the right side
+                (game[0, 0] == true & game[1, 1] == true & game[2, 2] == true) | // diagonal`
+                (game[2, 0] == true & game[1, 1] == true & game[0, 2] == true))
+            {
+                return GameStat.CrossWin;
+            }
+
+
+            return GameStat.Unfinished; // tell code the game is going on
         }
         public static int SearchPlayer(TicTacToe[] games, SocketUser player, SocketChannel channel)
         {
