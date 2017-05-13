@@ -10,8 +10,8 @@ using System.Linq;
 
 namespace gamebot
 {
-	class gamebot
-	{  
+    class gamebot
+    {
         private static DiscordSocketClient _client = new DiscordSocketClient();
 
         public static string prefix = "g!"; // Sets custom bot prefix
@@ -74,8 +74,13 @@ namespace gamebot
                     }
                     else if (cmd == "info") // info command
                     {
-                        string contributors = "`Noahkiq`, `Technochips` and `Bottersnike`";
+                        string contributors = "`Noahkiq` and `Technochips`";
                         string message = $"Heya! I'm gamebot, a bot for automating various games. I've been created by {contributors}. You can report issues, make suggestions, or examine my source code at <https://github.com/Noahkiq/gamebot/>.";
+                        await e.Channel.SendMessageAsync(message);
+                    }
+                    else if (cmd == "credits") // credits command
+                    {
+                        string message = $"Main code: `Noahkiq` and `Technochips`. Some extra changes: `Bottersnike`. Hangman english words: `SIL International`.";
                         await e.Channel.SendMessageAsync(message);
                     }
                     else if (cmd == "ttt") // tictactoe command code
@@ -156,7 +161,8 @@ namespace gamebot
                                     }
                                     else
                                         await e.Channel.SendMessageAsync("You are currently not in a game in this channel."); //the user cannot play if he's not playing
-                                } else
+                                }
+                                else
                                     await e.Channel.SendMessageAsync(helpPlay); // too few requirements were supplied so help is shown
                             else if (par[0] == "cancel")
                                 await e.Channel.SendMessageAsync(helpCancel);
@@ -232,7 +238,8 @@ namespace gamebot
                                     int x;
                                     bool isNumeric = int.TryParse(par[1], out x);
 
-                                    if (!isNumeric) {
+                                    if (!isNumeric)
+                                    {
                                         await e.Channel.SendMessageAsync("Invalid X co-ordinate.");
                                         return;
                                     }
@@ -280,7 +287,7 @@ namespace gamebot
                     //								}
                     //							}
                     //						}
-                    
+
                     else if (cmd == "crash")
                     {
                         throw new Exception("Manual crash tester.");
