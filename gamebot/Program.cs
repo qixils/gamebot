@@ -224,18 +224,20 @@ namespace gamebot
 				});
 			_client.Ready += (s,e) =>
 			{
-				//Console.WriteLine("a");
 				if (File.Exists(Save.path + "ttt.json"))
 				{
-					//Console.WriteLine("a");
+					Console.WriteLine("[Info] TicTacToe: Games file found. Loading.");
 					JSON.TicTacToe[] gamej = Save.Load<JSON.TicTacToe[]>("ttt.json");
-					//Console.WriteLine(gamej.Length);
+
 					foreach (JSON.TicTacToe j in gamej)
 					{
-						//Console.WriteLine("b");
 						TTTGames.Add(TicTacToe.ToClass(j, _client));
 					}
-					//Console.WriteLine("c");
+					
+					if (gamej.Length == 1)
+						Console.WriteLine("[Info] TicTacToe: Loaded " + gamej.Length.ToString() + " game from file!");
+					else
+						Console.WriteLine("[Info] TicTacToe: Loaded " + gamej.Length.ToString() + " games from file!");
 				}
 			};
 		}
