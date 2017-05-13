@@ -12,9 +12,10 @@ namespace gamebot
 
 		private static DiscordClient _client = new DiscordClient();
 
-		public static string prefix = "d!"; // Sets custom bot prefix
+		public static string prefix = "g!"; // Sets custom bot prefix
 
 		List<TicTacToe> TTTGames = new List<TicTacToe>();
+		List<UltimateTicTacToe> UTTTGames = new List<UltimateTicTacToe>();
 
 		public void Start()
 		{
@@ -198,8 +199,31 @@ namespace gamebot
 						{
 							string helpNew = $"Type `{prefix}{cmd} new <mention>` to invite someone to play Ultimate Tic Tac Toe.";
 							string helpPlay = $"Type `{prefix}{cmd} play <X> <Y>` to place a cross or a circle in a game.";
-							string helpCancel = $"Type `{prefix}{cmd} cancel` to cancel your current game in this channel.";
-                            if (par.Length == 0)
+                            string helpCancel = $"Type `{prefix}{cmd} cancel` to cancel your current game in this channel.";
+                            if (par.Length == 2)
+                            {
+                                User[] mentioned = e.Message.MentionedUsers.ToArray();
+                                if (mentioned.Length != 1 || mentioned[0] == null)
+                                    await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is show
+                                else
+                                {
+                                    var i = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), e.User, e.Channel); //search the user
+                                    var j = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), mentioned[0], e.Channel); //search the mentioned user
+                                    if(i == -1 && j == -1)
+                                    {
+                                        if (mentioned[0].IsBot)
+                                            await e.Channel.SendMessage($"You cannot play against another bot!");
+										else if (mentioned[0] == e.User)
+											await e.Channel.SendMessage($"You cannot play a game with yourself!"); //hey kiddo you shouldn't play with yourself
+                                        else
+                                        {
+                                            UTTTGames.Add(new UltimateTicTacToe(e.User, mentioned[0], e.Channel));
+                                            await e.Channel.SendMessage("A new game has started!");
+                                        }
+                                    }
+                                }
+                            }
+                            else
 							{
 								await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
                             }
