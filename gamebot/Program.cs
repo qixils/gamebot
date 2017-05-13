@@ -41,6 +41,17 @@ namespace gamebot
             return Task.CompletedTask;
         }
 
+        private void SaveState()
+        {
+            List<JSON.TicTacToe> ttts = new List<JSON.TicTacToe>();
+            foreach (TicTacToe t in TTTGames)
+            {
+                ttts.Add(t.ToStruct());
+            }
+            Save.Saves(ttts.ToArray(), "ttt.json");
+            // Console.WriteLine("[Debug] TicTacToe: Saved!");
+        }
+
         private async Task MessageReceived(SocketMessage args)
         {
             var e = args as SocketUserMessage;
@@ -112,19 +123,14 @@ namespace gamebot
                                 {
                                     TTTGames.RemoveAt(i); // deletes game at 'i', which will be the current game if found
                                     await e.Channel.SendMessageAsync($"The game has successfully been cancelled.");
+                                    SaveState();
                                 }
                                 else
                                     await e.Channel.SendMessageAsync($"You are currently not in a game in this channel.");
                             }
                             else if (par[0] == "save")
                             {
-                                List<JSON.TicTacToe> ttts = new List<JSON.TicTacToe>();
-                                foreach (TicTacToe t in TTTGames)
-                                {
-                                    ttts.Add(t.ToStruct());
-                                }
-                                Save.Saves(ttts.ToArray(), "ttt.json");
-
+                                SaveState();
                                 await e.Channel.SendMessageAsync("Saved!");
                             }
                             else
@@ -174,6 +180,7 @@ namespace gamebot
                                     }
                                     else
                                         await e.Channel.SendMessageAsync("You are currently not in a game in this channel."); //the user cannot play if he's not playing
+                                    SaveState();
                                 }
                                 else
                                     await e.Channel.SendMessageAsync(helpPlay); // too few requirements were supplied so help is shown
@@ -230,7 +237,9 @@ namespace gamebot
                                     else if (i != -1) //if it has found the user
                                         await e.Channel.SendMessageAsync("You are already in a game in this channel."); //the user cannot play two game in a channel
                                     else if (j != -1) //if it has found the mentioned user
-                                        await e.Channel.SendMessageAsync("They are already in a game in this channel."); //the user cannot play with another user playing another game	
+                                        await e.Channel.SendMessageAsync("They are already in a game in this channel."); //the user cannot play with another user playing another game
+
+                                    SaveState();
                                 }
                             }
                             else
@@ -281,6 +290,8 @@ namespace gamebot
                                         await e.Channel.SendMessageAsync("Co-ordinates off grid."); //Invalid co-ords
                                     else
                                         await e.Channel.SendMessageAsync("You can't place a shape onto another shape."); //the user cannot cheat by replacing a shape
+
+                                    SaveState();
                                 }
                                 else
                                     await e.Channel.SendMessageAsync("You are not currently in a game in this channel."); //the user cannot play if he's not playing
