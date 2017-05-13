@@ -118,7 +118,7 @@ namespace gamebot
 													TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
 													await e.Channel.SendMessage("A new game has started!");
 												}
-												else if (par.Length == 3)
+												else if (par.Length == 4)
 												{
 													bool validInts = true;
 
