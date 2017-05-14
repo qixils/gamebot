@@ -231,22 +231,23 @@ namespace gamebot
                                             }
                                             else if (par.Length == 4)
                                             {
-                                                bool validInts = true;
+                                                int width;
+                                                bool width_works = int.TryParse(par[2], out width);
+                                                int height;
+                                                bool height_works = int.TryParse(par[3], out height);
 
-                                                try
+                                                if (width_works & height_works)
                                                 {
-                                                    int.Parse(par[2]);
-                                                    int.Parse(par[3]);
-                                                }
-                                                catch
-                                                {
-                                                    validInts = false;
-                                                }
-
-                                                if (validInts)
-                                                {
-                                                    TTTGames.Add(new TicTacToe(e.Author, mentioned[0], e.Channel as SocketChannel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, channel, and board size
-                                                    await e.Channel.SendMessageAsync($"A new game has started with a board size of {int.Parse(par[2])} x {int.Parse(par[3])}!");
+                                                    if (width < 3 | height < 3)
+                                                    {
+                                                        await e.Channel.SendMessageAsync("Really? That's far too small.");
+                                                    } else if (width > 9 | height > 9)
+                                                    {
+                                                        await e.Channel.SendMessageAsync("I don't support boards bigger than 9x9.");
+                                                    } else {
+                                                        TTTGames.Add(new TicTacToe(e.Author, mentioned[0], e.Channel as SocketChannel, width, height)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, channel, and board size
+                                                        await e.Channel.SendMessageAsync($"A new game has started with a board size of {width} x {height}!");
+                                                    }
                                                 }
                                                 else
                                                     await e.Channel.SendMessageAsync($"**Error:** Invalid integers were supplied for the board size.");
