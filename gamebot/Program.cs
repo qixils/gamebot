@@ -87,15 +87,12 @@ namespace gamebot
 									}
 									else
 										await e.Channel.SendMessage($"You are currently not in a game in this channel.");
+									SaveState();
 								}
 								else if (par[0] == "save")
 								{
-									List<JSON.TicTacToe> ttts = new List<JSON.TicTacToe>();
-									foreach (TicTacToe t in TTTGames)
-									{
-										ttts.Add(t.ToStruct());
-									}
-									Save.Saves(ttts.ToArray(), "ttt.json");
+									SaveState();
+									await e.Channel.SendMessage("Saved!");
 								}
 								else
 									await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
@@ -159,6 +156,7 @@ namespace gamebot
 										else if (j != -1) //if it has found the mentioned user
 											await e.Channel.SendMessage("They are already in a game in this channel."); //the user cannot play with another user playing another game	
 									}
+									SaveState();
 								}
 								else
 									await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}"); // send default help message if no valid commands were detected
@@ -196,6 +194,7 @@ namespace gamebot
 											await e.Channel.SendMessage("It's not your turn."); //the user cannot play if it's not his turn
 										else
 											await e.Channel.SendMessage("You can't place a shape onto another shape."); //the user cannot cheat by replacing a shape
+										SaveState();
 									}
 									else
 										await e.Channel.SendMessage("You are currently not in a game in this channel."); //the user cannot play if he's not playing
