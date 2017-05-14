@@ -26,7 +26,7 @@ namespace gamebot
 				{
 					if (!e.User.IsBot)
 					{
-						string msg = e.Message.Text;
+						string msg = e.Message.RawText;
 						string rawcmd = "no-cmd"; // Filler command
 						if(msg.StartsWith(prefix)) // Check if message starts with prefix
 							rawcmd = msg.Replace(prefix, ""); // Set rawcmd to full command (cmd + arguments)
