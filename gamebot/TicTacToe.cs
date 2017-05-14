@@ -242,6 +242,7 @@ namespace gamebot
 			TicTacToe ttt = new TicTacToe(c.GetUser(t.Cross), c.GetUser(t.Circle), c);
 			//Console.WriteLine("f");
 			ttt.game = t.Game;
+			ttt.isCircleTurn = t.IsCircleTurn;
 			//Console.WriteLine("g");
 			return ttt;
 		}
