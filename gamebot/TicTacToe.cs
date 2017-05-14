@@ -71,10 +71,12 @@ namespace gamebot
             {
                 result += (i + 1) + "⃣";    //write 1 to whatever the width is
             }                   //example: width is 4, it writes 1234
+            Console.WriteLine(result);
             for (int i = 0; i < height; i++)
             {
                 result += '\n'; //everytime it go to the next row in the game, creates a new line
-                result += ":regional_indicator_" + "abcdefghijklmnopqrstuvwxyz"[i] + ":";  //it also enters the current height line
+                result += "🇦 🇧 🇨 🇩 🇪 🇫 🇬 🇭 🇮".Split(' ')[i];
+                //result += "abcdefghijklmnopqrstuvwxyz"[i] + "⃣";  //it also enters the current height line
                 for (int j = 0; j < width; j++) //loop in every column of the game
                 {
                     if (game[j, i] == null)
