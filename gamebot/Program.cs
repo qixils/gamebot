@@ -175,7 +175,7 @@ namespace gamebot
                                         if (isc == 0) //if the turn was successful
                                         {
                                             await e.Channel.SendMessageAsync(TTTGames[i].DrawGame()); //write down the game
-                                            var c = TTTGames[i].CheckGame(); //check if someone wins
+                                            var c = TTTGames[i].CheckGame(x, y); //check if someone wins
                                             if (c == TicTacToe.GameStat.CircleWin || c == TicTacToe.GameStat.CrossWin) //if someone wins
                                             {
                                                 await e.Channel.SendMessageAsync($"Congratulation, <@{e.Author.Id}>, you won!");
@@ -290,7 +290,7 @@ namespace gamebot
                                     if (isc == 0) //if the turn was successful
                                     {
                                         await e.Channel.SendMessageAsync("```\n" + TTTGames[i].DrawGame() + "```"); //write down the game
-                                        var c = TTTGames[i].CheckGame(); //check if someone wins
+                                        var c = TTTGames[i].CheckGame(x, y); //check if someone wins
                                         if (c == TicTacToe.GameStat.CircleWin || c == TicTacToe.GameStat.CrossWin) //if someone wins
                                         {
                                             await e.Channel.SendMessageAsync($"Congratulation, <@{e.Author.Id}>, you won!");
@@ -339,7 +339,7 @@ namespace gamebot
             }
             catch (Exception ex)
             {
-                await e.Channel.SendMessageAsync("**Error:** A unexcepted error happened.\nIf you think this bug should be fixed, go here: <https://github.com/Bottersnike>");
+                await e.Channel.SendMessageAsync("**Error:** A unexcepted error happened.\nIf you think this bug should be fixed, go here: <https://github.com/Noahkiq/gamebot>");
                 if (ex.ToString().Length < 2000)
                     await e.Channel.SendMessageAsync($"```\n{ex}```");
                 Console.WriteLine(ex);

@@ -93,7 +93,7 @@ namespace gamebot
                             * 2 XX
                             * 3OOX */
         }
-        public GameStat CheckGame()
+        public GameStat CheckGame(int player_x, int player_y)
         {
             // define some variables
             int width = game.GetLength(0); //get the width of the game
@@ -116,32 +116,112 @@ namespace gamebot
                 return GameStat.Tie;
             }
 
-            if ((game[0, 0] == false & game[1, 0] == false & game[2, 0] == false) | // across the top
-                (game[0, 1] == false & game[1, 1] == false & game[2, 1] == false) | // across the middfalse
-                (game[0, 2] == false & game[1, 2] == false & game[2, 2] == false) | // across the bottom
-                (game[0, 0] == false & game[0, 1] == false & game[0, 2] == false) | // down the falseft side
-                (game[1, 0] == false & game[1, 1] == false & game[1, 2] == false) | // down the middfalse
-                (game[2, 0] == false & game[2, 1] == false & game[2, 2] == false) | // down the right side
-                (game[0, 0] == false & game[1, 1] == false & game[2, 2] == false) | // diagonal`
-                (game[2, 0] == false & game[1, 1] == false & game[0, 2] == false))
+            player_x--;
+            player_y--;
+
+            // Check L to R
+            if (player_x < width - 2) // If there's space..
             {
-                this.end_time = DateTime.Now;
-                return GameStat.CircleWin;
+                if (game[player_x, player_y] == true & game[player_x + 1, player_y] == true & game[player_x + 2, player_y] == true)
+                {
+                    return GameStat.CircleWin;
+                }
+                if (game[player_x, player_y] == false & game[player_x + 1, player_y] == false & game[player_x + 2, player_y] == false)
+                {
+                    return GameStat.CrossWin;
+                }
             }
 
-            if ((game[0, 0] == true & game[1, 0] == true & game[2, 0] == true) | // across the top
-                (game[0, 1] == true & game[1, 1] == true & game[2, 1] == true) | // across the middtrue
-                (game[0, 2] == true & game[1, 2] == true & game[2, 2] == true) | // across the bottom
-                (game[0, 0] == true & game[0, 1] == true & game[0, 2] == true) | // down the trueft side
-                (game[1, 0] == true & game[1, 1] == true & game[1, 2] == true) | // down the middtrue
-                (game[2, 0] == true & game[2, 1] == true & game[2, 2] == true) | // down the right side
-                (game[0, 0] == true & game[1, 1] == true & game[2, 2] == true) | // diagonal`
-                (game[2, 0] == true & game[1, 1] == true & game[0, 2] == true))
+            // Check R to L
+            if (player_x > 1) // If there's space..
             {
-                this.end_time = DateTime.Now;
-                return GameStat.CrossWin;
+                if (game[player_x, player_y] == true & game[player_x - 1, player_y] == true & game[player_x - 2, player_y] == true)
+                {
+                    return GameStat.CircleWin;
+                }
+                if (game[player_x, player_y] == false & game[player_x - 1, player_y] == false & game[player_x - 2, player_y] == false)
+                {
+                    return GameStat.CrossWin;
+                }
             }
 
+            // Check U to D
+            if (player_y > 1) // If there's space..
+            {
+                if (game[player_x, player_y] == true & game[player_x, player_y - 1] == true & game[player_x, player_y - 2] == true)
+                {
+                    return GameStat.CircleWin;
+                }
+                if (game[player_x, player_y] == false & game[player_x, player_y - 1] == false & game[player_x, player_y - 2] == false)
+                {
+                    return GameStat.CrossWin;
+                }
+            }
+
+            // Check D to U
+            if (player_y < height - 2) // If there's space..
+            {
+                if (game[player_x, player_y] == true & game[player_x, player_y + 1] == true & game[player_x, player_y + 2] == true)
+                {
+                    return GameStat.CircleWin;
+                }
+                if (game[player_x, player_y] == false & game[player_x, player_y + 1] == false & game[player_x, player_y + 2] == false)
+                {
+                    return GameStat.CrossWin;
+                }
+            }
+
+            // Check POS to UR
+            if (player_y < height - 2 & player_x < width - 2) // If there's space..
+            {
+                if (game[player_x, player_y] == true & game[player_x + 1, player_y + 1] == true & game[player_x + 2, player_y + 2] == true)
+                {
+                    return GameStat.CircleWin;
+                }
+                if (game[player_x, player_y] == false & game[player_x + 1, player_y + 1] == false & game[player_x + 2, player_y + 2] == false)
+                {
+                    return GameStat.CrossWin;
+                }
+            }
+
+            // Check POS to DL
+            if (player_y > 1 & player_x > 2) // If there's space..
+            {
+                if (game[player_x, player_y] == true & game[player_x - 1, player_y - 1] == true & game[player_x - 2, player_y - 2] == true)
+                {
+                    return GameStat.CircleWin;
+                }
+                if (game[player_x, player_y] == false & game[player_x - 1, player_y - 1] == false & game[player_x - 2, player_y - 2] == false)
+                {
+                    return GameStat.CrossWin;
+                }
+            }
+
+            // Check POS to DR
+            if (player_y > 1 & player_x < width -2 ) // If there's space..
+            {
+                if (game[player_x, player_y] == true & game[player_x + 1, player_y - 1] == true & game[player_x + 2, player_y - 2] == true)
+                {
+                    return GameStat.CircleWin;
+                }
+                if (game[player_x, player_y] == false & game[player_x + 1, player_y - 1] == false & game[player_x + 2, player_y - 2] == false)
+                {
+                    return GameStat.CrossWin;
+                }
+            }
+
+            // Check POS to UL
+            if (player_x > 1 & player_y < height - 2) // If there's space..
+            {
+                if (game[player_x, player_y] == true & game[player_x - 1, player_y + 1] == true & game[player_x - 2, player_y + 2] == true)
+                {
+                    return GameStat.CircleWin;
+                }
+                if (game[player_x, player_y] == false & game[player_x - 1, player_y + 1] == false & game[player_x - 2, player_y + 2] == false)
+                {
+                    return GameStat.CrossWin;
+                }
+            }
 
             return GameStat.Unfinished; // tell code the game is going on
         }
