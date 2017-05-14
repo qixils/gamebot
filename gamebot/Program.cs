@@ -16,6 +16,18 @@ namespace gamebot
 
 		List<TicTacToe> TTTGames = new List<TicTacToe>();
 
+		private void SaveState()
+			{
+			    List<JSON.TicTacToeStruct> ttts = new List<JSON.TicTacToeStruct>();
+			    foreach (TicTacToe t in TTTGames)
+			    {
+				ttts.Add(t.ToStruct());
+			    }
+			    Save.Saves(ttts.ToArray(), "ttt.json");
+
+			    // Console.WriteLine("[Debug] TicTacToe: Saved!");
+			}
+		
 		public void Start()
 		{
 			_client.Log.Message += (s, e) => Console.WriteLine($"[{e.Severity}] {e.Source}: {e.Message}");
@@ -227,13 +239,13 @@ namespace gamebot
 				if (File.Exists(Save.path + "ttt.json"))
 				{
 					Console.WriteLine("[Info] TicTacToe: Games file found. Loading.");
-					JSON.TicTacToe[] gamej = Save.Load<JSON.TicTacToe[]>("ttt.json");
+					JSON.TicTacToeStruct[] gamej = Save.Load<JSON.TicTacToeStruct[]>("ttt.json");
 
-					foreach (JSON.TicTacToe j in gamej)
+					foreach (JSON.TicTacToeStruct j in gamej)
 					{
-						TTTGames.Add(TicTacToe.ToClass(j, _client));
+					TTTGames.Add(TicTacToe.ToClass(j, _client));
 					}
-					
+
 					if (gamej.Length == 1)
 						Console.WriteLine("[Info] TicTacToe: Loaded " + gamej.Length.ToString() + " game from file!");
 					else
