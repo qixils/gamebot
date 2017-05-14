@@ -65,24 +65,24 @@ namespace gamebot
         {
             int width = game.GetLength(0); //get the width of the game
             int height = game.GetLength(1); //get the height of the game
-            string result = " "; //create empty result with one space
+            string result = "▪️"; //create empty result with one space
 
             for (int i = 0; i < width; i++)
             {
-                result += i + 1;    //write 1 to whatever the width is
+                result += (i + 1) + "⃣";    //write 1 to whatever the width is
             }                   //example: width is 4, it writes 1234
             for (int i = 0; i < height; i++)
             {
                 result += '\n'; //everytime it go to the next row in the game, creates a new line
-                result += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i];  //it also enters the current height line
+                result += ":regional_indicator_" + "abcdefghijklmnopqrstuvwxyz"[i] + ":";  //it also enters the current height line
                 for (int j = 0; j < width; j++) //loop in every column of the game
                 {
                     if (game[j, i] == null)
-                        result += ' ';              //if it finds 'null' at [j,i] (x,y), it puts a space
+                        result += "▪️";              //if it finds 'null' at [j,i] (x,y), it puts a space
                     else if (game[j, i] == false)
-                        result += 'X';              //if it finds 'false' at [j,i] (x,y), it puts a cross
+                        result += "❌";              //if it finds 'false' at [j,i] (x,y), it puts a cross
                     else if (game[j, i] == true)
-                        result += 'O';              //if it finds 'true' at [j,i] (x,y), it puts a circle
+                        result += "⭕️";              //if it finds 'true' at [j,i] (x,y), it puts a circle
                 }
             }
 
@@ -98,11 +98,11 @@ namespace gamebot
             // define some variables
             int width = game.GetLength(0); //get the width of the game
             int height = game.GetLength(1); //get the height of the game
-            
+
             bool game_tie = true;
-            for (int x = 0; x < width; x ++)
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < height; y ++)
+                for (int y = 0; y < height; y++)
                 {
                     if (game[x, y] == null)
                     {
@@ -115,7 +115,7 @@ namespace gamebot
                 this.end_time = DateTime.Now;
                 return GameStat.Tie;
             }
-            
+
             if ((game[0, 0] == false & game[1, 0] == false & game[2, 0] == false) | // across the top
                 (game[0, 1] == false & game[1, 1] == false & game[2, 1] == false) | // across the middfalse
                 (game[0, 2] == false & game[1, 2] == false & game[2, 2] == false) | // across the bottom

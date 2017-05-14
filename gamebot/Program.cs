@@ -127,7 +127,7 @@ namespace gamebot
                                 int i = TicTacToe.SearchPlayer(TTTGames.ToArray(), e.Author, e.Channel as SocketChannel);
                                 if (i != -1) //checks if it actually finds a player
                                 {
-                                    await e.Channel.SendMessageAsync("```\n" + TTTGames[i].DrawGame() + "\n" + TTTGames[i].circle.ToString() + "```");
+                                    await e.Channel.SendMessageAsync(TTTGames[i].DrawGame());
                                 } else
                                 {
                                     await e.Channel.SendMessageAsync("You are not currently in a game in this channel.");
@@ -174,7 +174,7 @@ namespace gamebot
                                         int? isc = TTTGames[i].TakeTurn(e.Author, x, y); //check the turn
                                         if (isc == 0) //if the turn was successful
                                         {
-                                            await e.Channel.SendMessageAsync("```\n" + TTTGames[i].DrawGame() + "```"); //write down the game
+                                            await e.Channel.SendMessageAsync(TTTGames[i].DrawGame()); //write down the game
                                             var c = TTTGames[i].CheckGame(); //check if someone wins
                                             if (c == TicTacToe.GameStat.CircleWin || c == TicTacToe.GameStat.CrossWin) //if someone wins
                                             {
@@ -229,7 +229,7 @@ namespace gamebot
                                                 TTTGames.Add(new TicTacToe(e.Author, mentioned[0], e.Channel as SocketChannel)); // a new TTT game is added to 'TTTGames' with the command runner, opponent, and channel
                                                 await e.Channel.SendMessageAsync("A new game has started!");
                                             }
-                                            else if (par.Length == 3)
+                                            else if (par.Length == 4)
                                             {
                                                 bool validInts = true;
 
