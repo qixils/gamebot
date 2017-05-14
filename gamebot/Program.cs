@@ -35,10 +35,10 @@ namespace gamebot
 
 						string[] par = msg.Split(' ').Skip(1).ToArray(); // Grabs the arguments used in the command
 
-						//                      string parContents = null;
-						//                      foreach (string arg in par)
-						//                          parContents += arg + " ";
-						//                      Console.WriteLine(parContents);
+						//				  string parContents = null;
+						//				  foreach (string arg in par)
+						//					  parContents += arg + " ";
+						//				  Console.WriteLine(parContents);
 
 						if (cmd == "help") // help command code
 						{
@@ -202,36 +202,65 @@ namespace gamebot
 							string helpCancel = $"Type `{prefix}{cmd} cancel` to cancel your current game in this channel.";
 							if (par.Length == 1)
 							{
-								int i = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), e.User, e.Channel); // searches for a game with command runner and channel
-								if (i != -1) //checks if it actually finds a player
+								if (par[0] == "cancel")
 								{
-									UTTTGames.RemoveAt(i); // deletes game at 'i', which will be the current game if found
-									await e.Channel.SendMessage($"The game has successfully been cancelled.");
+									int i = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), e.User, e.Channel); // searches for a game with command runner and channel
+									if (i != -1) //checks if it actually finds a player
+									{
+										UTTTGames.RemoveAt(i); // deletes game at 'i', which will be the current game if found
+										await e.Channel.SendMessage($"The game has successfully been cancelled.");
+									}
+									else
+										await e.Channel.SendMessage($"You are currently not in a game in this channel.");
 								}
-								else
-									await e.Channel.SendMessage($"You are currently not in a game in this channel.");
 							}
 							else if (par.Length == 2)
 							{
-								User[] mentioned = e.Message.MentionedUsers.ToArray();
-								if (mentioned.Length != 1 || mentioned[0] == null)
-									await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is show
-								else
+								if (par[0] == "new")
 								{
-									var i = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), e.User, e.Channel); //search the user
-									var j = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), mentioned[0], e.Channel); //search the mentioned user
-									if (i == -1 && j == -1)
+									User[] mentioned = e.Message.MentionedUsers.ToArray();
+									if (mentioned.Length != 1 || mentioned[0] == null)
+										await e.Channel.SendMessage(helpNew); // too few (or many) users were mentioned, help is show
+									else
 									{
-										if (mentioned[0].IsBot)
-											await e.Channel.SendMessage($"You cannot play against another bot!");
-										else if (mentioned[0] == e.User)
-											await e.Channel.SendMessage($"You cannot play a game with yourself!"); //hey kiddo you shouldn't play with yourself
-										else
+										var i = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), e.User, e.Channel); //search the user
+										var j = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), mentioned[0], e.Channel); //search the mentioned user
+										if (i == -1 && j == -1)
 										{
-											UTTTGames.Add(new UltimateTicTacToe(e.User, mentioned[0], e.Channel));
-											await e.Channel.SendMessage("A new game has started!");
-                                            await e.Channel.SendMessage(UTTTGames.Last().DrawGame());
+											if (mentioned[0].IsBot)
+												await e.Channel.SendMessage($"You cannot play against another bot!");
+											else if (mentioned[0] == e.User)
+												await e.Channel.SendMessage($"You cannot play a game with yourself!"); //hey kiddo you shouldn't play with yourself
+											else
+											{
+												UTTTGames.Add(new UltimateTicTacToe(e.User, mentioned[0], e.Channel));
+												await e.Channel.SendMessage("A new game has started!");
+												await e.Channel.SendMessage(UTTTGames.Last().DrawGame());
+											}
 										}
+										else if (i != -1) //if it has found the user
+											await e.Channel.SendMessage("You are already in a game in this channel."); //the user cannot play two game in a channel
+										else if (j != -1) //if it has found the mentioned user
+											await e.Channel.SendMessage("They are already in a game in this channel."); //the user cannot play with another user playing another game   
+									}
+								}
+							}
+							else if (par.Length == 3)
+							{
+								if(par[0] == "play")
+								{
+									int i = UltimateTicTacToe.SearchPlayer(UTTTGames.ToArray(), e.User, e.Channel);
+									if (i != -1) //checks if it actually finds a player
+									{
+										bool? isc = UTTTGames[i].TakeTurn(e.User, int.Parse(par[1]), int.Parse(par[2])); //check the turn
+										if (isc == true) //if the turn was successful
+										{
+											await e.Channel.SendMessage(UTTTGames[i].DrawGame()); //write down the game
+										}
+										else if (isc == false)
+											await e.Channel.SendMessage("It's not your turn."); //the user cannot play if it's not his turn
+										else
+											await e.Channel.SendMessage("You can't place a shape onto another shape."); //the user cannot cheat by replacing a shape
 									}
 								}
 							}
@@ -240,15 +269,15 @@ namespace gamebot
 								await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
 							}
 						}
-						//                      else if (cmd == "hangman") // hangman command code
-						//                      {
-						//                          if (par.Length == 1) // checks if only one command argument was supplied
-						//                          {
-						//                              if (par[0] == "new") {
-						//                                  await e.Channel.SendMessage("Setting up game..."); // outputs string
-						//                              }
-						//                          }
-						//                      }
+						//else if (cmd == "hangman") // hangman command code
+						//{
+						//	if (par.Length == 1) // checks if only one command argument was supplied
+						//	{
+						//		if (par[0] == "new") {
+						//			await e.Channel.SendMessage("Setting up game..."); // outputs string
+						//		}
+						//	}
+						//}
 						else if (cmd == "crash")
 						{
 							throw new Exception("Manual crash tester.");

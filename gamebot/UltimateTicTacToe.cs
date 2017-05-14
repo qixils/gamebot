@@ -28,6 +28,28 @@ namespace gamebot
 
 			game = new bool?[swidth * bwidth, sheight * bheight];
 		}
+		public bool? TakeTurn(User player, int x, int y)
+		{
+			x--;
+			y--;
+
+			bool? isCircle = null;
+			if (circle == player)
+				isCircle = true;
+			else if (cross == player)
+				isCircle = false;
+
+			if (isCircle == isCircleTurn)
+			{
+				if (isCircle == true)
+					game[x, y] = true;
+				else if (isCircle == false)
+					game[x, y] = false;
+				isCircleTurn = !isCircleTurn;
+				return true;
+			}
+			return true;
+		}
 		public string DrawGame()
 		{
 			int width = game.GetLength(0); //get the width of the game
@@ -43,7 +65,7 @@ namespace gamebot
 			{
 				result += '\n'; //everytime it go to the next row in the game, creates a new line
 				if (i < 10)
-                    result += (i + 1) + "⃣";
+					result += (i + 1) + "⃣";
 				for (int j = 0; j < width; j++) //loop in every column of the game
 				{
 					if (game[j, i] == null)
@@ -55,7 +77,7 @@ namespace gamebot
 				}
 			}
 			return result; //return the drawn string
-            //if a empty square is white, you can place your shape in it
+						   //if a empty square is white, you can place your shape in it
 		}
 		public static int SearchPlayer(UltimateTicTacToe[] games, User player, Channel channel)
 		{
