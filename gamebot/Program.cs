@@ -166,7 +166,7 @@ namespace gamebot
 										bool? isc = TTTGames[i].TakeTurn(e.User, int.Parse(par[1]), int.Parse(par[2])); //check the turn
 										if (isc == true) //if the turn was successful
 										{
-											await e.Channel.SendMessage("```\n" + TTTGames[i].DrawGame() + "```"); //write down the game
+											await e.Channel.SendMessage(TTTGames[i].DrawGame()); //write down the game
 											var c = TTTGames[i].CheckGame(); //check if someone wins
 											if (c == TicTacToe.GameStat.CircleWin || c == TicTacToe.GameStat.CrossWin) //if someone wins
 											{

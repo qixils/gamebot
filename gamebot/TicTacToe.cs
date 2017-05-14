@@ -19,7 +19,7 @@ namespace gamebot
 			this.circle = circle;
 			this.channel = channel;
 
-			game = new bool?[width,height];
+			game = new bool?[width, height];
 		}
 		public bool? TakeTurn(User player, int x, int y)
 		{
@@ -53,33 +53,34 @@ namespace gamebot
 		{
 			int width = game.GetLength(0); //get the width of the game
 			int height = game.GetLength(1); //get the height of the game
-			string result = " "; //create empty result with one space
+			string result = "▪️"; //create empty result with one space
 
 			for (int i = 0; i < width; i++)
 			{
-				result += i + 1;	//write 1 to whatever the width is
-			}					//example: width is 4, it writes 1234
+				result += (i + 1) + "⃣"; //write 1 to whatever the width is
+				//example: width is 4, it writes 1234
+			}
 			for (int i = 0; i < height; i++)
 			{
-				result += '\n';	//everytime it go to the next row in the game, creates a new line
-				result += i + 1;	//it also enters the current height line
+				result += '\n'; //everytime it go to the next row in the game, creates a new line
+				result += (i + 1) + "⃣";    //it also enters the current height line
 				for (int j = 0; j < width; j++) //loop in every column of the game
 				{
 					if (game[j, i] == null)
-						result += ' ';				//if it finds 'null' at [j,i] (x,y), it puts a space
+						result += '▪';              //if it finds 'null' at [j,i] (x,y), it puts a space
 					else if (game[j, i] == false)
-						result += 'X';              //if it finds 'false' at [j,i] (x,y), it puts a cross
+						result += '❌';            //if it finds 'false' at [j,i] (x,y), it puts a cross
 					else if (game[j, i] == true)
-						result += 'O';              //if it finds 'true' at [j,i] (x,y), it puts a circle
+						result += "⭕️";            //if it finds 'true' at [j,i] (x,y), it puts a circle
 				}
 			}
 
 			return result; //return the drawn string
-			/* should look like this:
-			 *  123
-			 * 1X O
-			 * 2 XX
-			 * 3OOX */
+						   /* should look like this:
+							*  123
+							* 1X O
+							* 2 XX
+							* 3OOX */
 		}
 		public GameStat CheckGame()
 		{
@@ -94,9 +95,9 @@ namespace gamebot
 			{
 				// gets every row in 'game'
 				// defines temporary variables
-				int crossPointsC = 0;	//collumn points
+				int crossPointsC = 0;   //collumn points
 				int circlePointsC = 0;
-				int crossPointsR = 0;	//row points
+				int crossPointsR = 0;   //row points
 				int circlePointsR = 0;
 				int crossPointsDR = 0;  //down-right points
 				int circlePointsDR = 0;
@@ -209,9 +210,9 @@ namespace gamebot
 		public enum GameStat //used for CheckGame()
 		{
 			Unfinished, //for when someone can still wins
-			CrossWin,	//when cross wins
-			CircleWin,	//when circle wins
-			Tie			//when none wins, and cannot wins by placing more crosses or circles
+			CrossWin,   //when cross wins
+			CircleWin,  //when circle wins
+			Tie         //when none wins, and cannot wins by placing more crosses or circles
 		}
 		public JSON.TicTacToe ToStruct()
 		{
@@ -230,15 +231,15 @@ namespace gamebot
 		public static TicTacToe ToClass(JSON.TicTacToe t, DiscordClient client)
 		{
 			/*Console.WriteLine(t.Cross);
-			Console.WriteLine(t.Circle);
-			Console.WriteLine(t.Channel);*/
+            Console.WriteLine(t.Circle);
+            Console.WriteLine(t.Channel);*/
 
 			//Console.WriteLine("d");
 			Channel c = client.GetChannel(t.Channel);
 			/*if (c != null)
-				Console.WriteLine(c.Id);
-			else
-				Console.WriteLine("is null");*/
+                Console.WriteLine(c.Id);
+            else
+                Console.WriteLine("is null");*/
 			TicTacToe ttt = new TicTacToe(c.GetUser(t.Cross), c.GetUser(t.Circle), c);
 			//Console.WriteLine("f");
 			ttt.game = t.Game;
