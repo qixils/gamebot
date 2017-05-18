@@ -1,0 +1,8 @@
+language: csharp
+mono:
+  - latest
+  - 4.4.2
+solution: gamebot.sln
+install:
+  - touch gamebot/bot-token.txt
+  - nuget restore gamebot.sln
