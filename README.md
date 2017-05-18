@@ -1,4 +1,5 @@
-# gamebot
+# gamebot  
+[![Build Status](https://travis-ci.org/Noahkiq/gamebot.svg?branch=master)](https://travis-ci.org/Noahkiq/gamebot)
 
 gamebot is a C# bot for [Discord](https://discordapp.com/) made to automate games.
 You can add it to your server using [this link](https://discordapp.com/oauth2/authorize?client_id=273973153104134144&scope=bot).
