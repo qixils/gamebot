@@ -58,7 +58,7 @@ namespace gamebot
 			for (int i = 0; i < width; i++)
 			{
 				result += (i + 1) + "⃣"; //write 1 to whatever the width is
-				//example: width is 4, it writes 1234
+										 //example: width is 4, it writes 1234
 			}
 			for (int i = 0; i < height; i++)
 			{
@@ -107,19 +107,19 @@ namespace gamebot
 					var tileC = game[i, j]; //collumn points
 					var tileR = game[j, i]; //row points
 
-                    if (width == height)
-                    {
-                        if ((i == j) && (tileC == false))
-                        {
-                            crossPointsDR++;
-                            circlePointsDR = 0;
-                        }
-                        else if ((i == j) && (tileC == true))
-                        {
-                            circlePointsDR++;
-                            crossPointsDR = 0;
-                        }
-                    }
+					if (width == height)
+					{
+						if ((i == j) && (tileC == false))
+						{
+							crossPointsDR++;
+							circlePointsDR = 0;
+						}
+						else if ((i == j) && (tileC == true))
+						{
+							circlePointsDR++;
+							crossPointsDR = 0;
+						}
+					}
 
 					if (tileC == false) //collumn check
 					{
@@ -157,36 +157,36 @@ namespace gamebot
 				else if (circlePointsC == height || circlePointsR == width || circlePointsDR == height) // similar to above
 					circleWin = true; // still similar to above
 			}
-            if (width == height)
-            {
-                int crossPoints = 0;  //down-right points
-                int circlePoints = 0;
-                for (int i = 0; i < game.GetLength(0); i++)
-                {
-                    for (int j = game.GetLength(1) - 1; j >= 0; j--)
-                    {
-                        //Console.WriteLine(i + "," + j);
-                        var tile = game[i, j];
+			if (width == height)
+			{
+				int crossPoints = 0;  //down-right points
+				int circlePoints = 0;
+				for (int i = 0; i < game.GetLength(0); i++)
+				{
+					for (int j = game.GetLength(1) - 1; j >= 0; j--)
+					{
+						//Console.WriteLine(i + "," + j);
+						var tile = game[i, j];
 
-                        if ((i == ((j * -1) + (game.GetLength(0) - 1))) && (tile == false))
-                        {
-                            crossPoints++;
-                            circlePoints = 0;
-                        }
-                        else if ((i == ((j * -1) + (game.GetLength(0) - 1))) && (tile == true))
-                          {
-                            circlePoints++;
-                            crossPoints = 0;
-                        }
-                    }
-                }
+						if ((i == ((j * -1) + (game.GetLength(0) - 1))) && (tile == false))
+						{
+							crossPoints++;
+							circlePoints = 0;
+						}
+						else if ((i == ((j * -1) + (game.GetLength(0) - 1))) && (tile == true))
+						{
+							circlePoints++;
+							crossPoints = 0;
+						}
+					}
+				}
 
 
-                if (crossPoints == height) // checks if crossPoints are the same as height
-                    crossWin = true; // sets crossWin to true
-                else if (circlePoints == height) // similar to above
-                    circleWin = true; // still similar to above
-            }
+				if (crossPoints == height) // checks if crossPoints are the same as height
+					crossWin = true; // sets crossWin to true
+				else if (circlePoints == height) // similar to above
+					circleWin = true; // still similar to above
+			}
 
 			if (circleWin)
 				return GameStat.CircleWin; // tell code circle won

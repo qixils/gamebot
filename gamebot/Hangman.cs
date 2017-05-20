@@ -17,7 +17,7 @@ namespace gamebot
 
 		public string WordChooser() // Chooses a random word from a custom dictionary
 		{
-			var dictionary = File.ReadAllLines (curdur + "/words.txt"); // grabs array of lines in 'words.txt' file
+			var dictionary = File.ReadAllLines(curdur + "/words.txt"); // grabs array of lines in 'words.txt' file
 
 			int r = rnd.Next(dictionary.Length); // picks a random int based on the number of words
 			string word = (string)dictionary[r]; // grab string at the selected int
@@ -26,4 +26,3 @@ namespace gamebot
 		}
 	}
 }
-

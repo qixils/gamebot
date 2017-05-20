@@ -28,16 +28,16 @@ namespace gamebot
 					{
 						string msg = e.Message.RawText;
 						string rawcmd = "no-cmd"; // Filler command
-						if(msg.StartsWith(prefix)) // Check if message starts with prefix
+						if (msg.StartsWith(prefix)) // Check if message starts with prefix
 							rawcmd = msg.Replace(prefix, ""); // Set rawcmd to full command (cmd + arguments)
 						string cmd = rawcmd.Split(' ')[0]; // Grab just the command
 
 						string[] par = msg.Split(' ').Skip(1).ToArray(); // Grabs the arguments used in the command
 
-//						string parContents = null;
-//						foreach (string arg in par)
-//							parContents += arg + " ";
-//						Console.WriteLine(parContents);
+						//						string parContents = null;
+						//						foreach (string arg in par)
+						//							parContents += arg + " ";
+						//						Console.WriteLine(parContents);
 
 						if (cmd == "help") // help command code
 						{
@@ -134,11 +134,16 @@ namespace gamebot
 
 													if (validInts)
 													{
-														if (int.Parse(par[2]) < 3 || int.Parse(par[3]) < 3) {
+														if (int.Parse(par[2]) < 3 || int.Parse(par[3]) < 3)
+														{
 															await e.Channel.SendMessage("Board must be atleast 3x3.");
-														} else if (int.Parse(par[2]) > 9 || int.Parse(par[3]) > 9) {
+														}
+														else if (int.Parse(par[2]) > 9 || int.Parse(par[3]) > 9)
+														{
 															await e.Channel.SendMessage("Board must be atmost 9x9.");
-														} else {
+														}
+														else
+														{
 															TTTGames.Add(new TicTacToe(e.User, mentioned[0], e.Channel, int.Parse(par[2]), int.Parse(par[3]))); // a new TTT game is added to 'TTTGames' with the command runner, opponent, channel, and board size
 															await e.Channel.SendMessage($"A new game has started with a board size of {int.Parse(par[2])} x {int.Parse(par[3])}!");
 														}
@@ -200,25 +205,25 @@ namespace gamebot
 							else
 								await e.Channel.SendMessage($"{helpNew}\n{helpPlay}\n{helpCancel}");
 						}
-//						else if (cmd == "hangman") // hangman command code
-//						{
-//							if (par.Length == 1) // checks if only one command argument was supplied
-//							{
-//								if (par[0] == "new") {
-//									await e.Channel.SendMessage("Setting up game..."); // outputs string
-//								}
-//							}
-//						}
+						//						else if (cmd == "hangman") // hangman command code
+						//						{
+						//							if (par.Length == 1) // checks if only one command argument was supplied
+						//							{
+						//								if (par[0] == "new") {
+						//									await e.Channel.SendMessage("Setting up game..."); // outputs string
+						//								}
+						//							}
+						//						}
 						else if (cmd == "crash")
 						{
 							throw new Exception("Manual crash tester.");
 						}
 					}
 				}
-				catch(Exception ex)
+				catch (Exception ex)
 				{
 					await e.Channel.SendMessage("**Error:** A unexcepted error happened.\nIf you think this bug should be fixed, go here: <https://github.com/Noahkiq/gamebot/issues>");
-					if(ex.ToString().Length < 2000)
+					if (ex.ToString().Length < 2000)
 						await e.Channel.SendMessage($"```\n{ex}```");
 					Console.WriteLine(ex);
 				}
@@ -228,7 +233,7 @@ namespace gamebot
 				{
 					await _client.Connect(token, TokenType.Bot);
 				});
-			_client.Ready += (s,e) =>
+			_client.Ready += (s, e) =>
 			{
 				//Console.WriteLine("a");
 				if (File.Exists(Save.path + "ttt.json"))
