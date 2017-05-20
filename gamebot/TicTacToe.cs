@@ -221,9 +221,9 @@ namespace gamebot
 			CircleWin,  //when circle wins
 			Tie         //when none wins, and cannot wins by placing more crosses or circles
 		}
-		public JSON.TicTacToe ToStruct()
+		public JSON.TicTacToeStruct ToStruct()
 		{
-			JSON.TicTacToe r = new JSON.TicTacToe();
+			JSON.TicTacToeStruct r = new JSON.TicTacToeStruct();
 			r.Cross = cross.Id;
 			r.Circle = circle.Id;
 			r.Channel = channel.Id;
@@ -231,11 +231,11 @@ namespace gamebot
 			r.IsCircleTurn = isCircleTurn;
 			return r;
 		}
-		public static JSON.TicTacToe ToStruct(TicTacToe t)
+		public static JSON.TicTacToeStruct ToStruct(TicTacToe t)
 		{
 			return t.ToStruct();
 		}
-		public static TicTacToe ToClass(JSON.TicTacToe t, DiscordClient client)
+		public static TicTacToe ToClass(JSON.TicTacToeStruct t, DiscordClient client)
 		{
 			/*Console.WriteLine(t.Cross);
             Console.WriteLine(t.Circle);
@@ -250,6 +250,7 @@ namespace gamebot
 			TicTacToe ttt = new TicTacToe(c.GetUser(t.Cross), c.GetUser(t.Circle), c);
 			//Console.WriteLine("f");
 			ttt.game = t.Game;
+			ttt.isCircleTurn = t.IsCircleTurn;
 			//Console.WriteLine("g");
 			return ttt;
 		}

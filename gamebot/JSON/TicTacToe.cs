@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 namespace gamebot.JSON
 {
-	public struct TicTacToe
+	public struct TicTacToeStruct
 	{
 		public ulong Cross;
 		public ulong Circle;
