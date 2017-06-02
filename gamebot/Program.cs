@@ -107,8 +107,8 @@ namespace gamebot
 										{
 											if (mentioned[0].IsBot)
 												await e.Channel.SendMessage($"You cannot play against another bot!");
-											// else if (mentioned[0].Status.Value == UserStatus.Offline)
-											//     await e.Channel.SendMessage($"You cannot play against an offline/invisible user!");
+											else if (mentioned[0].Status.Value == UserStatus.Offline)
+											    await e.Channel.SendMessage($"You cannot play against an offline/invisible user!");
 											else if (mentioned[0] == e.User)
 												await e.Channel.SendMessage($"You cannot play a game with yourself!");
 											else
